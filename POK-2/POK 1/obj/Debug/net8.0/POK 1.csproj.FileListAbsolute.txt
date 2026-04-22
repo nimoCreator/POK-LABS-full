@@ -13,3 +13,18 @@ D:\CS Repos\POK LABS\POK-2\POK 1\obj\Debug\net8.0\refint\POK 1.dll
 D:\CS Repos\POK LABS\POK-2\POK 1\obj\Debug\net8.0\POK 1.pdb
 D:\CS Repos\POK LABS\POK-2\POK 1\obj\Debug\net8.0\POK 1.genruntimeconfig.cache
 D:\CS Repos\POK LABS\POK-2\POK 1\obj\Debug\net8.0\ref\POK 1.dll
+C:\repos\POK-LABS-full\POK-2\POK 1\bin\Debug\net8.0\POK 1.exe
+C:\repos\POK-LABS-full\POK-2\POK 1\bin\Debug\net8.0\POK 1.deps.json
+C:\repos\POK-LABS-full\POK-2\POK 1\bin\Debug\net8.0\POK 1.runtimeconfig.json
+C:\repos\POK-LABS-full\POK-2\POK 1\bin\Debug\net8.0\POK 1.dll
+C:\repos\POK-LABS-full\POK-2\POK 1\bin\Debug\net8.0\POK 1.pdb
+C:\repos\POK-LABS-full\POK-2\POK 1\obj\Debug\net8.0\POK 1.GeneratedMSBuildEditorConfig.editorconfig
+C:\repos\POK-LABS-full\POK-2\POK 1\obj\Debug\net8.0\POK 1.AssemblyInfoInputs.cache
+C:\repos\POK-LABS-full\POK-2\POK 1\obj\Debug\net8.0\POK 1.AssemblyInfo.cs
+C:\repos\POK-LABS-full\POK-2\POK 1\obj\Debug\net8.0\POK 1.csproj.CoreCompileInputs.cache
+C:\repos\POK-LABS-full\POK-2\POK 1\obj\Debug\net8.0\POK 1.sourcelink.json
+C:\repos\POK-LABS-full\POK-2\POK 1\obj\Debug\net8.0\POK 1.dll
+C:\repos\POK-LABS-full\POK-2\POK 1\obj\Debug\net8.0\refint\POK 1.dll
+C:\repos\POK-LABS-full\POK-2\POK 1\obj\Debug\net8.0\POK 1.pdb
+C:\repos\POK-LABS-full\POK-2\POK 1\obj\Debug\net8.0\POK 1.genruntimeconfig.cache
+C:\repos\POK-LABS-full\POK-2\POK 1\obj\Debug\net8.0\ref\POK 1.dll

@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("POK 1")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+608c9eb189f48e8f249b3e81af65d1d5c3346d50")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+a2dda7fa0abd295763f45e63c365f04d5c89fdd3")]
 [assembly: System.Reflection.AssemblyProductAttribute("POK 1")]
 [assembly: System.Reflection.AssemblyTitleAttribute("POK 1")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

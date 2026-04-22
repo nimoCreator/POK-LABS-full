@@ -16,5 +16,5 @@ otrzymane rozwiazanie rownania -->
 |   3 |  0.0909090909091 | 1.110223e-016 |
 
 ------------------------------------
-rozwiazanie zajelo: 7.095 ms
+rozwiazanie zajelo: 33.367 ms
 ====================================

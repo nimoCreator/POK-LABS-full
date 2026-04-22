@@ -17,5 +17,5 @@ f(x) = 0.000000e+000
 liczba krokow = 4
 
 ------------------------------------
-rozwiazanie zajelo: 0.511 ms
+rozwiazanie zajelo: 1.973 ms
 ====================================

@@ -8,15 +8,18 @@ internal sealed class MoA07Zad2b : IZadanie
 
     private readonly double _a;
     private readonly double _b;
-    private readonly bool _fixedA;
     private readonly double _eps;
 
-    public MoA07Zad2b(double a, double b, bool fixedA, double eps)
+    public MoA07Zad2b(double a, double b, double eps)
     {
         _a = a;
         _b = b;
-        _fixedA = fixedA;
         _eps = eps;
+    }
+
+    public static double f(double x)
+    {
+        return Math.Exp(x - 1.0) + x * x - 2.0;
     }
 
     public void Run(TextWriter writer)
@@ -28,7 +31,7 @@ internal sealed class MoA07Zad2b : IZadanie
         int i = 0;
 
         writer.WriteLine("exp(x - 1) + x^2 - 2 = 0");
-        writer.WriteLine("a = {0:f6}  b = {1:f6}  punkt staly = {2}  eps = {3:e1}\n", _a, _b, _fixedA ? "a" : "b", _eps);
+        writer.WriteLine("a = {0:f6}  b = {1:f6} eps = {2:e1}\n", _a, _b, _eps);
         writer.WriteLine("| {0,3} | {1,14} | {2,14} | {3,14} | {4,13} |", "i", "a", "b", "x", "f(x)");
         writer.WriteLine("+-{0,3}-+-{1,14}-+-{2,14}-+-{3,14}-+-{4,13}-+", "---", "--------------", "--------------", "--------------", "-------------");
 
@@ -36,18 +39,11 @@ internal sealed class MoA07Zad2b : IZadanie
         {
             i++;
             x = Secant(a, b);
-            fx = MoA07Functions.Zad2(x);
+            fx = f(x);
 
             writer.WriteLine("| {0,3} | {1,14:f10} | {2,14:f10} | {3,14:f10} | {4,13:e6} |", i, a, b, x, fx);
 
-            if (_fixedA)
-            {
-                b = x;
-            }
-            else
-            {
-                a = x;
-            }
+            a = x;
         }
         while (Math.Abs(fx) > _eps && i < 1000);
 
@@ -60,8 +56,8 @@ internal sealed class MoA07Zad2b : IZadanie
 
     private static double Secant(double a, double b)
     {
-        double fa = MoA07Functions.Zad2(a);
-        double fb = MoA07Functions.Zad2(b);
+        double fa = f(a);
+        double fb = f(b);
 
         return (a * fb - b * fa) / (fb - fa);
     }

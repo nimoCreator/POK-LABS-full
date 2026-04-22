@@ -20,7 +20,7 @@ internal sealed class MoA07Zad3b : IZadanie
     public void Run(TextWriter writer)
     {
         double x = 0.5 * (_a + _b);
-        double fx = MoA07Functions.Zad3(x);
+        double fx = f(x);
         int i = 0;
 
         writer.WriteLine("2^(x^2 - 5*x + 10)*log(2)*(2*x - 5) = 0");
@@ -32,8 +32,8 @@ internal sealed class MoA07Zad3b : IZadanie
         while (Math.Abs(fx) > _eps && i < 1000)
         {
             i++;
-            x -= fx / MoA07Functions.Zad3Derivative(x);
-            fx = MoA07Functions.Zad3(x);
+            x -= fx / df(x);
+            fx = f(x);
             writer.WriteLine("| {0,3} | {1,14:f10} | {2,13:e6} |", i, x, fx);
         }
 
@@ -42,5 +42,21 @@ internal sealed class MoA07Zad3b : IZadanie
         writer.WriteLine("f(x) = {0:e6}", fx);
         writer.WriteLine("liczba krokow = {0}", i);
         writer.WriteLine();
+    }
+
+    public static double f(double x)
+    {
+        double log2 = Math.Log(2.0);
+        double p = x * x - 5.0 * x + 10.0;
+        return Math.Pow(2.0, p) * log2 * (2.0 * x - 5.0);
+    }
+
+    public static double df(double x)
+    {
+        double log2 = Math.Log(2.0);
+        double p = x * x - 5.0 * x + 10.0;
+        double linear = 2.0 * x - 5.0;
+
+        return Math.Pow(2.0, p) * log2 * (2.0 + log2 * linear * linear);
     }
 }

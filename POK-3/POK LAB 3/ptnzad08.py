@@ -1,17 +1,38 @@
 from math import cos, exp, log, sin, tan
+from assets import DoubleWriter, inputWithDefault
+
+
+def newton_steps(x0, e, f, Df, max_iter=100):
+    x = x0
+    rows = []
+    for step in range(1, max_iter + 1):
+        fx = f(x)
+        dfx = Df(x)
+        x_next = x - fx / dfx
+        difference = abs(x_next - x)
+        rows.append((step, x, fx, dfx, x_next, difference))
+        if difference < e:
+            break
+        x = x_next
+    return rows
 
 
 def SolveNonLinEq(x0, e, f, Df, max_iter=100):
-    x = x0
-    for step in range(1, max_iter + 1):
-        x_next = x - f(x) / Df(x)
-        if abs(x_next - x) < e:
-            return x_next, step
-        x = x_next
-    return x, max_iter
+    rows = newton_steps(x0, e, f, Df, max_iter)
+    return rows[-1][4], rows[-1][0]
+
+
+def print_steps_table(rows, doubleWriter):
+    doubleWriter.print("| {0:>3} | {1:>16} | {2:>13} | {3:>13} | {4:>16} | {5:>13} |".format("i", "x_i", "f(x_i)", "Df(x_i)", "x_i+1", "roznica"))
+    doubleWriter.print("+-{0:>3}-+-{1:>16}-+-{2:>13}-+-{3:>13}-+-{4:>16}-+-{5:>13}-+".format("---", "----------------", "-------------", "-------------", "----------------", "-------------"))
+
+    for step, x, fx, dfx, x_next, difference in rows:
+        doubleWriter.print("| {0:3d} | {1:16.10f} | {2:13.6e} | {3:13.6e} | {4:16.10f} | {5:13.6e} |".format(step, x, fx, dfx, x_next, difference))
 
 
 def main():
+    doubleWriter = DoubleWriter("ptnzad08")
+
     log2 = log(2.0)
     tests = [
         (
@@ -40,15 +61,21 @@ def main():
         ),
     ]
 
-    eps = 1.0e-10
-    print("eps = {0:.1e}".format(eps))
-    print()
-    print("| {0:36} | {1:>10} | {2:>16} | {3:>6} | {4:>13} |".format("funkcja", "x0", "x", "kroki", "f(x)"))
-    print("+-{0:36}-+-{1:>10}-+-{2:>16}-+-{3:>6}-+-{4:>13}-+".format("-" * 36, "-" * 10, "-" * 16, "-" * 6, "-" * 13))
+    eps = inputWithDefault("Podaj dokladnosc", 1.0e-10, float)
+    doubleWriter.print("eps = {0:.1e}".format(eps))
+    doubleWriter.print()
 
     for name, x0, f, Df in tests:
-        x, steps = SolveNonLinEq(x0, eps, f, Df)
-        print("| {0:36} | {1:10.6f} | {2:16.10f} | {3:6d} | {4:13.6e} |".format(name, x0, x, steps, f(x)))
+        rows = newton_steps(x0, eps, f, Df)
+        x = rows[-1][4]
+
+        doubleWriter.print(name)
+        doubleWriter.print("x0 = {0:.10f}".format(x0))
+        print_steps_table(rows, doubleWriter)
+        doubleWriter.print("x = {0:.15f}".format(x))
+        doubleWriter.print("liczba krokow =", rows[-1][0])
+        doubleWriter.print("f(x) = {0:.6e}".format(f(x)))
+        doubleWriter.print()
 
 
 if __name__ == "__main__":

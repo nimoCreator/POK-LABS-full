@@ -1,0 +1,714 @@
+﻿Katowice 2026-04-22
+
+
+Programowanie obliczeń komputerowych
+Laboratorium 2
+
+
+Sebastian Legierski 301954
+Informatyka Przemysłowa, Stopień II, Semestr 2
+Wydział Inżynierii Materiałowej i Cyfryzacji Przemysłu, Politechnika Śląska
+
+
+# Wprowadzenie
+
+Rozwiązania są przygotowane w formie potomków interface'u IZadanie, który odpowiada za uruchamianie zadań, przygotowanie Writer'a wypisującego wyniki do pliku i/lub konsoli oraz pomiar czasu pracy programu. Dzięki temu powtarzalny kod organizacyjny jest oddelegowany do wspólnych elementów projektu, a w klasach poszczególnych zadań pozostaje jedynie właściwy algorytm obliczeniowy.
+
+Laboratorium 2 obejmuje dwie grupy zagadnień. Pierwsza dotyczy rozwiązywania układów równań liniowych metodą eliminacji Gaussa oraz sprawdzenia jej dokładności i złożoności obliczeniowej. Druga dotyczy numerycznego rozwiązywania równań nieliniowych metodą bisekcji, metodą siecznych oraz metodą stycznych Newtona.
+
+W celu zachowania zwięzłości sprawozdania długie serie wyników zostały skrócone o wartości środkowe. Pełne dane znajdują się w plikach wynikowych w folderze POK_results i mogą zostać odtworzone przez ponowne uruchomienie kodu źródłowego.
+
+
+# Zadanie moA06zad1
+
+## Treść zadania
+
+W poleceniu mamy napisać program, który pobiera rząd n układu równań liniowych oraz wszystkie stałe współczynniki, czyli macierz A i wektor b. Następnie program rozwiązuje układ metodą eliminacji Gaussa, sprawdza, czy rozwiązanie istnieje, a jeżeli tak, wypisuje niewiadome x oraz względne błędy otrzymane po podstawieniu rozwiązania do równania.
+
+## Analiza polecenia
+
+Do rozwiązania układu A*x=b zastosowano eliminację Gaussa z wyborem elementu podstawowego w bieżącej kolumnie. Macierz A i wektor b są przepisywane do macierzy rozszerzonej, następnie wykonywane jest zerowanie elementów pod diagonalą. Po otrzymaniu postaci trójkątnej program wyznacza niewiadome przez podstawianie wsteczne. Na końcu obliczany jest wektor błędów względnych db, który pozwala sprawdzić dokładność wyniku.
+
+## Kod
+
+public void Run(TextWriter writer)
+{
+    int n = _b.Length;
+
+    writer.WriteLine("rzad ukladu n = {0}\n", n);
+    writer.WriteLine("macierz A oraz wektor b:");
+    for (int i = 0; i < n; i++)
+    {
+        writer.Write("|");
+        for (int j = 0; j < n; j++)
+        {
+            writer.Write(" {0,10:f6}", _a[i, j]);
+        }
+
+        writer.WriteLine(" | {0,10:f6}", _b[i]);
+    }
+
+    var result = GaussSolver.Solve(_a, _b);
+    if (!result.HasSolution)
+    {
+        writer.WriteLine("brak jednoznacznego rozwiazania");
+        return;
+    }
+
+    for (int i = 0; i < n; i++)
+    {
+        writer.WriteLine("| {0,3} | {1,16:g12} | {2,13:e6} |",
+            i + 1, result.X[i], result.Db[i]);
+    }
+}
+
+Najważniejszy fragment metody Gaussa:
+
+for (int k = 0; k < n - 1; k++)
+{
+    double maxElement = Math.Abs(c[k][k]);
+    int maxPosition = k;
+
+    for (int i = k + 1; i < n; i++)
+    {
+        double element = Math.Abs(c[i][k]);
+        if (element > maxElement)
+        {
+            maxElement = element;
+            maxPosition = i;
+        }
+    }
+
+    if (Math.Abs(maxElement) < Eps)
+    {
+        return new LinearEquationResult(false, x, db);
+    }
+
+    if (maxPosition != k)
+    {
+        (c[k], c[maxPosition]) = (c[maxPosition], c[k]);
+    }
+
+    double ckk = c[k][k];
+    for (int i = k + 1; i < n; i++)
+    {
+        double multiplier = c[i][k] / ckk;
+        c[i][k] = 0.0;
+
+        for (int j = k + 1; j <= n; j++)
+        {
+            c[i][j] -= multiplier * c[k][j];
+        }
+    }
+}
+
+## Wynik
+
+====================================
+ZADANIE moA06zad1
+------------------------------------
+rzad ukladu n = 3
+
+macierz A oraz wektor b:
+|   1.000000   6.000000   0.000000 |   3.000000
+|   2.000000   1.000000   0.000000 |   1.000000
+|   0.000000   2.000000   1.000000 |   1.000000
+
+otrzymane rozwiazanie rownania -->
+|   i |                x |            db |
++-----+------------------+---------------+
+|   1 |   0.272727272727 | 0.000000e+000 |
+|   2 |   0.454545454545 | 0.000000e+000 |
+|   3 |  0.0909090909091 | 1.110223e-016 |
+
+------------------------------------
+rozwiazanie zajelo: 33.367 ms
+====================================
+
+## Wnioski
+
+Program poprawnie rozwiązał układ równań liniowych. Otrzymano x1 = 0.272727272727, x2 = 0.454545454545 oraz x3 = 0.0909090909091. Błędy względne db są równe zeru lub mieszczą się na poziomie 1.110223e-016, czyli praktycznie na poziomie błędu zaokrągleń arytmetyki double. Czas wykonania wyniósł 33.367 ms.
+
+
+# Zadanie moA06zad2
+
+## Treść zadania
+
+W poleceniu mamy napisać program, który w pętli o m krokach generuje losowo w przedziale 0..10 wszystkie współczynniki układu równań liniowych dowolnego rzędu n. Następnie każdy układ jest rozwiązywany metodą eliminacji Gaussa. Program zlicza przypadki, w których rozwiązanie istnieje, oraz oblicza uśrednione błędy względne.
+
+## Analiza polecenia
+
+Zadanie sprawdza praktyczną dokładność metody eliminacji Gaussa na wielu losowych układach równań. Dla każdego przypadku generowana jest nowa macierz A i nowy wektor b, a potem wywoływany jest ten sam solver co w poprzednim zadaniu. Jeżeli układ ma jednoznaczne rozwiązanie, program dolicza jego błędy db do sumy i aktualizuje największy odnotowany błąd.
+
+## Kod
+
+public void Run(TextWriter writer)
+{
+    var random = new Random(_seed);
+    int solutionCount = 0;
+    double errorSum = 0.0;
+    double maxError = 0.0;
+
+    for (int step = 0; step < _m; step++)
+    {
+        var equation = GaussSolver.CreateRandomEquation(_n, random);
+        var result = GaussSolver.Solve(equation.A, equation.B);
+
+        if (!result.HasSolution)
+        {
+            continue;
+        }
+
+        solutionCount++;
+        foreach (double db in result.Db)
+        {
+            double error = Math.Abs(db);
+            errorSum += error;
+            maxError = Math.Max(maxError, error);
+        }
+    }
+
+    double averageError = solutionCount == 0
+        ? 0.0
+        : errorSum / (solutionCount * _n);
+
+    writer.WriteLine("liczba przypadkow z rozwiazaniem = {0}", solutionCount);
+    writer.WriteLine("sredni blad wzgledny db = {0:e6}", averageError);
+    writer.WriteLine("maksymalny blad wzgledny db = {0:e6}", maxError);
+}
+
+## Wynik
+
+====================================
+ZADANIE moA06zad2
+------------------------------------
+n = 5  m = 1000  seed = 301954
+
+liczba przypadkow z rozwiazaniem = 1000
+liczba przypadkow bez rozwiazania = 0
+sredni blad wzgledny db = 4.232465e-015
+maksymalny blad wzgledny db = 5.101973e-012
+
+------------------------------------
+rozwiazanie zajelo: 6.318 ms
+====================================
+
+## Wnioski
+
+Dla 1000 losowo wygenerowanych układów rzędu 5 wszystkie przypadki miały jednoznaczne rozwiązanie. Średni błąd względny wyniósł 4.232465e-015, a maksymalny 5.101973e-012, więc metoda Gaussa w tej implementacji daje bardzo dokładne wyniki dla badanych danych. Czas wykonania wyniósł 6.318 ms.
+
+
+# Zadanie moA06zad3
+
+## Treść zadania
+
+W poleceniu mamy napisać program, który dla kolejnych rzędów układu n = 2..N mierzy czas działania metody eliminacji Gaussa. Dla każdego n program w dodatkowej pętli wykonuje m losowych układów, rozwiązuje je metodą Gaussa, sprawdza istnienie rozwiązania i na końcu zapisuje średni czas rozwiązania do pliku tekstowego CSV. Otrzymane dane mogą zostać użyte do wykonania wykresu w programie Excel.
+
+## Analiza polecenia
+
+Celem zadania jest empiryczne wyznaczenie charakteru złożoności obliczeniowej metody eliminacji Gaussa. Teoretycznie metoda ma złożoność O(n^3), ponieważ główna część algorytmu zawiera zagnieżdżone pętle zależne od rozmiaru macierzy. Program mierzy średni czas dla wielu losowych układów, co zmniejsza wpływ pojedynczych odchyleń pomiarowych. W wynikach widać lokalne wahania, ale ogólny trend czasu rośnie razem z rzędem układu.
+
+## Kod
+
+public void Run(TextWriter writer)
+{
+    var random = new Random(_seed);
+
+    writer.WriteLine("N = {0}  m = {1}  seed = {2}\n", _nMax, _m, _seed);
+    writer.WriteLine("n;czas_ms;");
+
+    for (int n = 2; n <= _nMax; n++)
+    {
+        int solutionCount = 0;
+        var stopwatch = Stopwatch.StartNew();
+
+        for (int step = 0; step < _m; step++)
+        {
+            var equation = GaussSolver.CreateRandomEquation(n, random);
+            var result = GaussSolver.Solve(equation.A, equation.B);
+            if (result.HasSolution)
+            {
+                solutionCount++;
+            }
+        }
+
+        stopwatch.Stop();
+
+        double averageTime = solutionCount == 0
+            ? 0.0
+            : stopwatch.Elapsed.TotalMilliseconds / solutionCount;
+
+        writer.WriteLine("{0};{1:f6}", n, averageTime);
+    }
+}
+
+## Wynik
+
+====================================
+ZADANIE moA06zad3
+------------------------------------
+N = 100  m = 150  seed = 301954
+
+n;czas_ms;
+2;0.033362
+3;0.002183
+4;0.003298
+5;0.003763
+6;0.008854
+7;0.009262
+8;0.009828
+9;0.013421
+10;0.022591
+...
+50;0.090137
+60;0.131524
+70;0.196051
+80;0.254907
+90;0.398330
+91;0.383399
+92;0.417755
+93;0.465491
+94;0.480971
+95;0.482864
+96;0.491217
+97;0.502779
+98;0.504836
+99;0.516675
+100;0.532978
+
+------------------------------------
+rozwiazanie zajelo: 2425.062 ms
+====================================
+
+## Wnioski
+
+Średni czas rozwiązania pojedynczego układu rośnie wraz z rzędem n. Dla n = 10 wyniósł 0.022591 ms, dla n = 50 wyniósł 0.090137 ms, a dla n = 100 osiągnął 0.532978 ms. Wyniki nie rosną idealnie gładko, ponieważ pomiar czasu jest podatny na zakłócenia, ale trend potwierdza, że eliminacja Gaussa jest algorytmem o szybko rosnącym koszcie, zgodnym z oczekiwaną złożonością O(n^3). Czas całego zadania wyniósł 2425.062 ms.
+
+
+# Zadanie moA07zad1a
+
+## Treść zadania
+
+W poleceniu mamy napisać program, który metodą bisekcji rozwiązuje równanie tan^3(x) - 4*tan(x) = 0. W pierwszej wersji programu podawane są: początek a i koniec b przedziału oraz liczba n jego połowień.
+
+## Analiza polecenia
+
+Metoda bisekcji polega na kolejnym połowieniu przedziału i wyborze tej części, w której występuje zmiana znaku funkcji. W programie dla każdego kroku obliczany jest środek x = (a + b) / 2 oraz wartość f(x). Następnie aktualizowany jest jeden z końców przedziału. Dla równania tan^3(x) - 4*tan(x) = 0 w badanym zakresie znalezione rozwiązanie odpowiada wartości x, dla której tan(x) = 2, czyli x jest bliskie 1.1071487178.
+
+## Kod
+
+public void Run(TextWriter writer)
+{
+    double a = _a;
+    double b = _b;
+    double x = double.NaN;
+
+    for (int i = 1; i <= _n; i++)
+    {
+        x = 0.5 * (a + b);
+        double fx = f(x);
+
+        writer.WriteLine("| {0,3} | {1,14:f10} | {2,14:f10} | {3,14:f10} | {4,13:e6} |",
+            i, a, b, x, fx);
+
+        if (f(a) * fx <= 0.0)
+        {
+            b = x;
+        }
+        else
+        {
+            a = x;
+        }
+    }
+
+    writer.WriteLine("x({0}) = {1:g15}", _n, x);
+    writer.WriteLine("f(x) = {0:e6}", f(x));
+}
+
+public double f(double x)
+{
+    double tan = Math.Tan(x);
+    return tan * tan * tan - 4.0 * tan;
+}
+
+## Wynik
+
+====================================
+ZADANIE moA07zad1a
+------------------------------------
+tan^3(x) - 4*tan(x) = 0
+a = 0.100000  b = 2.000000  n = 60
+
+|   i |              a |              b |              x |          f(x) |
++-----+----------------+----------------+----------------+---------------+
+|   1 |   0.1000000000 |   2.0000000000 |   1.0500000000 | -1.675068e+000 |
+|   2 |   1.0500000000 |   2.0000000000 |   1.5250000000 | 1.030227e+004 |
+|   3 |   1.0500000000 |   1.5250000000 |   1.2875000000 | 2.678819e+001 |
+|   4 |   1.0500000000 |   1.2875000000 |   1.1687500000 | 3.600436e+000 |
+|   5 |   1.0500000000 |   1.1687500000 |   1.1093750000 | 9.020123e-002 |
+...
+|  56 |   1.1071487178 |   1.1071487178 |   1.1071487178 | -3.552714e-015 |
+|  57 |   1.1071487178 |   1.1071487178 |   1.1071487178 | -3.552714e-015 |
+|  58 |   1.1071487178 |   1.1071487178 |   1.1071487178 | -3.552714e-015 |
+|  59 |   1.1071487178 |   1.1071487178 |   1.1071487178 | -3.552714e-015 |
+|  60 |   1.1071487178 |   1.1071487178 |   1.1071487178 | -3.552714e-015 |
+
+x(60) = 1.10714871779409
+f(x) = -3.552714e-015
+
+------------------------------------
+rozwiazanie zajelo: 7.240 ms
+====================================
+
+## Wnioski
+
+Po 60 połowieniach przedziału otrzymano x = 1.10714871779409. Wartość funkcji w tym punkcie wynosi -3.552714e-015, więc wynik jest bardzo dokładny. Metoda bisekcji jest stabilna i przewidywalna, ale wymaga wielu kroków, aby osiągnąć wysoką dokładność. Czas wykonania wyniósł 7.240 ms.
+
+
+# Zadanie moA07zad1b
+
+## Treść zadania
+
+W drugiej wersji zadania z metodą bisekcji procedurę należy przerwać po osiągnięciu zadanej dokładności eps, poniżej której spada wartość bezwzględna lewej strony równania tan^3(x) - 4*tan(x) = 0.
+
+## Analiza polecenia
+
+Algorytm jest prawie taki sam jak w poprzednim zadaniu, ale zamiast wykonywać z góry ustaloną liczbę kroków, działa do momentu spełnienia warunku |f(x)| <= eps. Dzięki temu program kończy pracę wtedy, kiedy dokładność rozwiązania jest wystarczająca, a liczba iteracji wynika z przebiegu metody.
+
+## Kod
+
+do
+{
+    i++;
+    x = 0.5 * (a + b);
+    fx = f(x);
+
+    writer.WriteLine("| {0,3} | {1,14:f10} | {2,14:f10} | {3,14:f10} | {4,13:e6} |",
+        i, a, b, x, fx);
+
+    if (f(a) * fx <= 0.0)
+    {
+        b = x;
+    }
+    else
+    {
+        a = x;
+    }
+}
+while (Math.Abs(fx) > _eps && i < 1000);
+
+writer.WriteLine("x = {0:g15}", x);
+writer.WriteLine("f(x) = {0:e6}", fx);
+writer.WriteLine("liczba krokow = {0}", i);
+
+## Wynik
+
+====================================
+ZADANIE moA07zad1b
+------------------------------------
+tan^3(x) - 4*tan(x) = 0
+a = 0.100000  b = 2.000000  eps = 1.0e-010
+
+|   i |              a |              b |              x |          f(x) |
++-----+----------------+----------------+----------------+---------------+
+|   1 |   0.1000000000 |   2.0000000000 |   1.0500000000 | -1.675068e+000 |
+|   2 |   1.0500000000 |   2.0000000000 |   1.5250000000 | 1.030227e+004 |
+|   3 |   1.0500000000 |   1.5250000000 |   1.2875000000 | 2.678819e+001 |
+...
+|  34 |   1.1071487177 |   1.1071487179 |   1.1071487178 | -1.014694e-009 |
+|  35 |   1.1071487178 |   1.1071487179 |   1.1071487178 | 1.197201e-009 |
+|  36 |   1.1071487178 |   1.1071487178 |   1.1071487178 | 9.124790e-011 |
+
+x = 1.10714871779637
+f(x) = 9.124790e-011
+liczba krokow = 36
+
+------------------------------------
+rozwiazanie zajelo: 4.411 ms
+====================================
+
+## Wnioski
+
+Warunek dokładności eps = 1.0e-010 został spełniony po 36 krokach. Otrzymano x = 1.10714871779637, a wartość funkcji wyniosła 9.124790e-011. Wersja z kryterium dokładności wykonuje mniej kroków niż wersja z n = 60, a nadal daje bardzo dobry wynik. Czas wykonania wyniósł 4.411 ms.
+
+
+# Zadanie moA07zad2a
+
+## Treść zadania
+
+W poleceniu mamy napisać program, który metodą siecznych rozwiązuje równanie exp(x - 1) + x^2 - 2 = 0. W pierwszej wersji programu podawane są: początek a i koniec b przedziału oraz liczba n cięć przedziału sieczną.
+
+## Analiza polecenia
+
+Metoda siecznych wyznacza kolejne przybliżenie miejsca zerowego na podstawie prostej przechodzącej przez punkty (a, f(a)) oraz (b, f(b)). W implementacji prawy koniec b pozostaje stały, a lewy koniec a jest zastępowany przez kolejne przybliżenie x. Dla równania exp(x - 1) + x^2 - 2 = 0 rozwiązaniem jest x = 1, ponieważ exp(0) + 1 - 2 = 0.
+
+## Kod
+
+public void Run(TextWriter writer)
+{
+    double a = _a;
+    double b = _b;
+    double x = double.NaN;
+
+    for (int i = 1; i <= _n; i++)
+    {
+        x = Secant(a, b);
+        double fx = f(x);
+
+        writer.WriteLine("| {0,3} | {1,14:f10} | {2,14:f10} | {3,14:f10} | {4,13:e6} |",
+            i, a, b, x, fx);
+
+        a = x;
+    }
+
+    writer.WriteLine("x({0}) = {1:g15}", _n, x);
+    writer.WriteLine("f(x) = {0:e6}", f(x));
+}
+
+private static double Secant(double a, double b)
+{
+    double fa = f(a);
+    double fb = f(b);
+
+    return (a * fb - b * fa) / (fb - fa);
+}
+
+public static double f(double x)
+{
+    return Math.Exp(x - 1.0) + x * x - 2.0;
+}
+
+## Wynik
+
+====================================
+ZADANIE moA07zad2a
+------------------------------------
+exp(x - 1) + x^2 - 2 = 0
+a = 0.000000  b = 2.000000 n = 60
+
+|   i |              a |              b |              x |          f(x) |
++-----+----------------+----------------+----------------+---------------+
+|   1 |   0.0000000000 |   2.0000000000 |   0.5140211468 | -1.120687e+000 |
+|   2 |   0.5140211468 |   2.0000000000 |   0.7992286496 | -5.431341e-001 |
+|   3 |   0.7992286496 |   2.0000000000 |   0.9231838497 | -2.216715e-001 |
+|   4 |   0.9231838497 |   2.0000000000 |   0.9715040302 | -8.427371e-002 |
+|   5 |   0.9715040302 |   2.0000000000 |   0.9895517485 | -3.118120e-002 |
+...
+|  56 |   1.0000000000 |   2.0000000000 |   1.0000000000 | -6.661338e-016 |
+|  57 |   1.0000000000 |   2.0000000000 |   1.0000000000 | -6.661338e-016 |
+|  58 |   1.0000000000 |   2.0000000000 |   1.0000000000 | -6.661338e-016 |
+|  59 |   1.0000000000 |   2.0000000000 |   1.0000000000 | -6.661338e-016 |
+|  60 |   1.0000000000 |   2.0000000000 |   1.0000000000 | -6.661338e-016 |
+
+x(60) = 1
+f(x) = -6.661338e-016
+
+------------------------------------
+rozwiazanie zajelo: 8.722 ms
+====================================
+
+## Wnioski
+
+Po 60 iteracjach metoda siecznych doprowadziła do wartości x = 1, a reszta równania wyniosła -6.661338e-016. Wynik jest zgodny z dokładnym rozwiązaniem równania. Ponieważ w implementacji jeden koniec przedziału pozostaje stały, zbieżność jest spokojna i wymaga wielu kroków, ale daje stabilny rezultat. Czas wykonania wyniósł 8.722 ms.
+
+
+# Zadanie moA07zad2b
+
+## Treść zadania
+
+W drugiej wersji zadania z metodą siecznych procedurę należy przerwać po osiągnięciu podanej dokładności eps, poniżej której spada wartość bezwzględna lewej strony równania exp(x - 1) + x^2 - 2 = 0.
+
+## Analiza polecenia
+
+Zamiast wykonywać stałą liczbę iteracji, program sprawdza po każdym kroku wartość |f(x)|. Gdy wartość ta spadnie poniżej eps, obliczenia są przerywane. Pozwala to uniknąć nadmiarowych iteracji, które w zadaniu 2a nie zmieniały już istotnie wyniku.
+
+## Kod
+
+do
+{
+    i++;
+    x = Secant(a, b);
+    fx = f(x);
+
+    writer.WriteLine("| {0,3} | {1,14:f10} | {2,14:f10} | {3,14:f10} | {4,13:e6} |",
+        i, a, b, x, fx);
+
+    a = x;
+}
+while (Math.Abs(fx) > _eps && i < 1000);
+
+writer.WriteLine("x = {0:g15}", x);
+writer.WriteLine("f(x) = {0:e6}", fx);
+writer.WriteLine("liczba krokow = {0}", i);
+
+## Wynik
+
+====================================
+ZADANIE moA07zad2b
+------------------------------------
+exp(x - 1) + x^2 - 2 = 0
+a = 0.000000  b = 2.000000 eps = 1.0e-010
+
+|   i |              a |              b |              x |          f(x) |
++-----+----------------+----------------+----------------+---------------+
+|   1 |   0.0000000000 |   2.0000000000 |   0.5140211468 | -1.120687e+000 |
+|   2 |   0.5140211468 |   2.0000000000 |   0.7992286496 | -5.431341e-001 |
+|   3 |   0.7992286496 |   2.0000000000 |   0.9231838497 | -2.216715e-001 |
+...
+|  23 |   0.9999999996 |   2.0000000000 |   0.9999999999 | -3.994396e-010 |
+|  24 |   0.9999999999 |   2.0000000000 |   1.0000000000 | -1.454659e-010 |
+|  25 |   1.0000000000 |   2.0000000000 |   1.0000000000 | -5.297540e-011 |
+
+x = 0.999999999982342
+f(x) = -5.297540e-011
+liczba krokow = 25
+
+------------------------------------
+rozwiazanie zajelo: 3.419 ms
+====================================
+
+## Wnioski
+
+Program zatrzymał obliczenia po 25 krokach, ponieważ osiągnięto wymaganą dokładność eps = 1.0e-010. Otrzymano x = 0.999999999982342 oraz f(x) = -5.297540e-011. Wersja z warunkiem dokładności jest krótsza obliczeniowo niż wersja ze stałymi 60 iteracjami. Czas wykonania wyniósł 3.419 ms.
+
+
+# Zadanie moA07zad3a
+
+## Treść zadania
+
+W poleceniu mamy napisać program, który metodą stycznych Newtona rozwiązuje równanie 2^(x^2 - 5*x + 10)*log(2)*(2*x - 5) = 0. W pierwszej wersji programu podawane są: początek a i koniec b przedziału oraz liczba n kroków iteracji.
+
+## Analiza polecenia
+
+Metoda Newtona korzysta z wartości funkcji i jej pochodnej. Kolejne przybliżenie wyznaczane jest ze wzoru x = x - f(x)/f'(x). Program rozpoczyna od środka przedziału [a, b], czyli od x = 3.0. Badane równanie ma pierwiastek w punkcie x = 2.5, ponieważ czynnik (2*x - 5) zeruje całą funkcję, a pozostałe czynniki są dodatnie.
+
+## Kod
+
+public void Run(TextWriter writer)
+{
+    double x = 0.5 * (_a + _b);
+
+    writer.WriteLine("| {0,3} | {1,14} | {2,13} |", "i", "x", "f(x)");
+    writer.WriteLine("| {0,3} | {1,14:f10} | {2,13:e6} |", 0, x, f(x));
+
+    for (int i = 1; i <= _n; i++)
+    {
+        x -= f(x) / df(x);
+        writer.WriteLine("| {0,3} | {1,14:f10} | {2,13:e6} |", i, x, f(x));
+    }
+
+    writer.WriteLine("x({0}) = {1:g15}", _n, x);
+    writer.WriteLine("f(x) = {0:e6}", f(x));
+}
+
+public static double f(double x)
+{
+    double log2 = Math.Log(2.0);
+    double p = x * x - 5.0 * x + 10.0;
+    return Math.Pow(2.0, p) * log2 * (2.0 * x - 5.0);
+}
+
+public static double df(double x)
+{
+    double log2 = Math.Log(2.0);
+    double p = x * x - 5.0 * x + 10.0;
+    double n = 2.0 * x - 5.0;
+
+    return log2 * Math.Pow(2.0, p) * (log2 * n * n + 2);
+}
+
+## Wynik
+
+====================================
+ZADANIE moA07zad3a
+------------------------------------
+2^(x^2 - 5*x + 10)*log(2)*(2*x - 5) = 0
+a = 2.000000  b = 4.000000  n = 8
+
+|   i |              x |          f(x) |
++-----+----------------+---------------+
+|   0 |   3.0000000000 | 1.109035e+001 |
+|   1 |   2.6286872076 | 2.427943e+000 |
+|   2 |   2.5028880450 | 5.386720e-002 |
+|   3 |   2.5000000334 | 6.228454e-007 |
+|   4 |   2.5000000000 | 0.000000e+000 |
+|   5 |   2.5000000000 | 0.000000e+000 |
+|   6 |   2.5000000000 | 0.000000e+000 |
+|   7 |   2.5000000000 | 0.000000e+000 |
+|   8 |   2.5000000000 | 0.000000e+000 |
+
+x(8) = 2.5
+f(x) = 0.000000e+000
+
+------------------------------------
+rozwiazanie zajelo: 1.913 ms
+====================================
+
+## Wnioski
+
+Metoda Newtona bardzo szybko doprowadziła do rozwiązania x = 2.5. Już po 4 krokach wartość funkcji była zapisana jako 0.000000e+000, a dalsze iteracje nie zmieniały wyniku. Potwierdza to szybką zbieżność metody stycznych dla dobrze dobranego punktu startowego. Czas wykonania wyniósł 1.913 ms.
+
+
+# Zadanie moA07zad3b
+
+## Treść zadania
+
+W drugiej wersji zadania z metodą Newtona procedurę iteracyjną należy przerwać po osiągnięciu podanej dokładności eps, poniżej której spada wartość bezwzględna lewej strony równania 2^(x^2 - 5*x + 10)*log(2)*(2*x - 5) = 0.
+
+## Analiza polecenia
+
+Wersja z kryterium dokładności wykonuje tę samą iterację Newtona, ale kończy działanie, kiedy |f(x)| <= eps. Ponieważ w tym równaniu metoda zbiega bardzo szybko do x = 2.5, program powinien wykonać tylko kilka kroków i zatrzymać się bez potrzeby narzucania stałej liczby iteracji.
+
+## Kod
+
+double x = 0.5 * (_a + _b);
+double fx = f(x);
+int i = 0;
+
+while (Math.Abs(fx) > _eps && i < 1000)
+{
+    i++;
+    x -= fx / df(x);
+    fx = f(x);
+    writer.WriteLine("| {0,3} | {1,14:f10} | {2,13:e6} |", i, x, fx);
+}
+
+writer.WriteLine("x = {0:g15}", x);
+writer.WriteLine("f(x) = {0:e6}", fx);
+writer.WriteLine("liczba krokow = {0}", i);
+
+## Wynik
+
+====================================
+ZADANIE moA07zad3b
+------------------------------------
+2^(x^2 - 5*x + 10)*log(2)*(2*x - 5) = 0
+a = 2.000000  b = 4.000000  eps = 1.0e-010
+
+|   i |              x |          f(x) |
++-----+----------------+---------------+
+|   0 |   3.0000000000 | 1.109035e+001 |
+|   1 |   2.6286872076 | 2.427943e+000 |
+|   2 |   2.5028880450 | 5.386720e-002 |
+|   3 |   2.5000000334 | 6.228454e-007 |
+|   4 |   2.5000000000 | 0.000000e+000 |
+
+x = 2.5
+f(x) = 0.000000e+000
+liczba krokow = 4
+
+------------------------------------
+rozwiazanie zajelo: 1.973 ms
+====================================
+
+## Wnioski
+
+Program zakończył obliczenia po 4 krokach, ponieważ wartość funkcji spadła do 0.000000e+000, czyli poniżej eps = 1.0e-010. Wynik x = 2.5 jest zgodny z analitycznym miejscem zerowym wynikającym z czynnika (2*x - 5). Metoda Newtona okazała się najkrótsza obliczeniowo spośród metod badanych w zadaniach z równań nieliniowych. Czas wykonania wyniósł 1.973 ms.
+
+
+# Podsumowanie
+
+W części dotyczącej układów równań liniowych metoda eliminacji Gaussa poprawnie wyznaczała rozwiązania oraz dawała bardzo małe błędy względne. Testy losowe dla n = 5 potwierdziły stabilność implementacji, a pomiar czasu dla n = 2..100 pokazał rosnący koszt obliczeń zgodny z charakterem złożoności O(n^3).
+
+W części dotyczącej równań nieliniowych wszystkie badane metody doprowadziły do poprawnych miejsc zerowych. Bisekcja była stabilna, lecz wymagała większej liczby kroków. Metoda siecznych poprawnie znalazła rozwiązanie x = 1 dla równania exp(x - 1) + x^2 - 2 = 0. Metoda Newtona była najszybsza dla równania z zadania 3, ponieważ osiągnęła dokładny wynik x = 2.5 już po kilku iteracjach.
+

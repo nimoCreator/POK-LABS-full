@@ -9,5 +9,5 @@ sredni blad wzgledny db = 4.232465e-015
 maksymalny blad wzgledny db = 5.101973e-012
 
 ------------------------------------
-rozwiazanie zajelo: 2.543 ms
+rozwiazanie zajelo: 6.318 ms
 ====================================

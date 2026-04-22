@@ -16,6 +16,11 @@ internal sealed class MoA07Zad1b : IZadanie
         _b = b;
         _eps = eps;
     }
+    public double f(double x)
+    {
+        double tan = Math.Tan(x);
+        return tan * tan * tan - 4.0 * tan;
+    }
 
     public void Run(TextWriter writer)
     {
@@ -34,11 +39,11 @@ internal sealed class MoA07Zad1b : IZadanie
         {
             i++;
             x = 0.5 * (a + b);
-            fx = MoA07Functions.Zad1(x);
+            fx = f(x);
 
             writer.WriteLine("| {0,3} | {1,14:f10} | {2,14:f10} | {3,14:f10} | {4,13:e6} |", i, a, b, x, fx);
 
-            if (MoA07Functions.Zad1(a) * fx <= 0.0)
+            if (f(a) * fx <= 0.0)
             {
                 b = x;
             }

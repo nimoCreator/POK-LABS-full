@@ -1,3 +1,6 @@
+from assets import DoubleWriter, inputWithDefault
+
+
 def primes_to(n):
     pierwsza = [True] * (n + 1)
     pierwsza[0] = False
@@ -12,16 +15,18 @@ def primes_to(n):
 
 
 def main():
-    n = 100
+    doubleWriter = DoubleWriter("ptnzad02")
+
+    n = inputWithDefault("Podaj n", 100, int)
     liczby = primes_to(n)
 
-    print("N =", n)
-    print("liczby pierwsze:")
+    doubleWriter.print("N =", n)
+    doubleWriter.print("liczby pierwsze:")
     for i, liczba in enumerate(liczby, 1):
-        print("{0:4d}".format(liczba), end="\n" if i % 10 == 0 else "")
+        doubleWriter.print("{0:4d}".format(liczba), end="\n" if i % 10 == 0 else "")
 
-    print()
-    print("ilosc liczb pierwszych =", len(liczby))
+    doubleWriter.print()
+    doubleWriter.print("ilosc liczb pierwszych =", len(liczby))
 
 
 if __name__ == "__main__":

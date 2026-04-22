@@ -23,7 +23,7 @@ internal sealed class MoA06Zad3 : IZadanie
         var random = new Random(_seed);
 
         writer.WriteLine("N = {0}  m = {1}  seed = {2}\n", _nMax, _m, _seed);
-        writer.WriteLine("n;czas_ms;liczba_rozwiazan");
+        writer.WriteLine("n;czas_ms;");
 
         for (int n = 2; n <= _nMax; n++)
         {
@@ -46,7 +46,7 @@ internal sealed class MoA06Zad3 : IZadanie
                 ? 0.0
                 : stopwatch.Elapsed.TotalMilliseconds / solutionCount;
 
-            writer.WriteLine("{0};{1:f6};{2}", n, averageTime, solutionCount);
+            writer.WriteLine("{0};{1:f6}", n, averageTime);
         }
 
         writer.WriteLine();
