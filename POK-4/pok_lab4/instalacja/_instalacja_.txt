@@ -1,0 +1,115 @@
+Instalacja srodowisk obliczeniowych Anaconda i SageMath dla jezyka Python3
+--------------------------------------------------------------------------
+
+Zainstalowac w systemie srodowisko anaconda3 z pliku "Anaconda3-2021.05-Windows-x86_64.exe" wybierajac opcje instalacji "all-users"
+
+Uruchomic w srodowisku Anaconda3 powloke "Conda Prompt" w trybie administratora i wykonac nastepujace polecenia:
+---
+> conda update -n base -c defaults conda                                                  # uaktualnienie instalatora conda dla srodowiska bazowego Anaconda3
+> conda list                                                                              # wyswietlenie listy zainstalowanych pakietow w srodowisku bazowym
+> conda search pytorch                                                                    # wyszukanie dostepnych w internecie wersji podanego pakietu
+> conda install pytorch==2.0.1 torchvision==0.15.2 torchaudio==2.0.2 cpuonly -c pytorch   # instalacja pakietu pytorch o wersji 2.0.1 jedynie dla cpu bez cuda
+> conda install ipympl                                                                    # instalacja dodatkowego modulu ipympl-0.8.7 dla matplotlib we jupyter
+> conda install -c vpython vpython                                                        # instalacja dodatkowych pakietow do wizualizacji, vpython-7.6.4
+> conda install -c conda-forge freeglut                                                   # freeglut-3.2.2
+> conda install -c anaconda pyopengl PyOpenGL-accelerate                                  # pyopengl-3.1.1, PyOpenGL-accelerate-3.1.3
+> conda clean -t                                                                          # usuniecie sciagnietych plikow tar ze instalatora conda
+> conda init                                                                              # opcjonalne zainicjowanie srodowiska Ananconda3 do interakcji w powloce
+> exit                                                                                    # wyjscie i ponowne uruchomienie powloki "Conda Prompt" w trybie administratora
+> conda activate C:\ProgramData\Anaconda3                                                 # opcjonalna aktywacja srodowiska bazowego jako biezacego w sciezce globalnej Anaconda3
+> exit                                                                                    # wyjscie ze powloki 
+---
+
+Zdefiniowac zmienna "CONDA_PREFIX=C:\ProgramData\Anaconda3" w srodowisku systemowym
+
+Dodac sciezki "%CONDA_PREFIX%\" oraz "%CONDA_PREFIX%\Scripts\" do konca zmiennej PATH
+
+Dodac sciezke "%CONDA_PREFIX%\Library\bin\" do konca zmiennej PATH
+
+Zainstalowac jako administrator srodowisko SageMath9.3 z pliku "SageMath-9.3-Installer-v0.6.3.exe" wybierajac opcje instalacji "all-users"
+
+Uruchomic w srodowisku Anaconda3 powloke "Anaconda Prompt" i wykonac nastepujace polecenia:
+---
+> d:
+> cd d:\projects
+> python
+>>> quit()
+> exit
+---
+co spowoduje uruchomienie programu interpretera Python3 w srodowisku bazowym z ktorego beda importowane pakiety i moduly
+
+Uwaga: Przed instalacja sprawdzic czy srodowiska i ich pakiety sa juz zainstalowane w systemie
+
+Uwaga: W folderze Menu znajduja sie skroty najwazniejszych polecen dla zainstalowanych srodowisk gdzie m.in. mozna uruchomic 
+       program Spyder jako srodowisko IDE do przetwarzania skryptow jezyka Python3 z uzyciem pakietow i modulow zainstalowanych 
+       w bazowym srodowisku Anaconda3 lub tez podobnie mozna przejsc do notatnika "Jupyter Notebook" w przegladarce webowej
+
+Uwaga: W przypadku srodowiska SageMath folder Menu zawiera m.in. polecenia "SageMath 9.3 Shell" do wyswietlania powloki
+       z linia polecen dla srodowiska, "SageMath 9.3 Console" do uruchomienia interpretera Python3 w oknie konsoli oraz
+       "SageMath 9.3 Notebook" do wyswietlenie notatnika w przegladarce webowej 
+
+Uwaga: W folderze Linki znajduja sie adresy stron internetowych dla zainstalowanych srodowisk i ich pakietow
+       gdzie mozna zapoznac sie z dokumentacja, podrecznikami oraz przykladowymi skryptami
+
+Uwaga: W folderze Testy znajduja sie wybrane przykladowe skrypty obliczeniowe do przetestowania zainstalowanych srodowisk
+
+
+Dodatkowa instalacja srodowiska PyTorch dla CUDA w Anaconda3
+------------------------------------------------------------
+
+Uruchomic w srodowisku Anaconda3 powloke "Conda Prompt" w trybie administratora i wykonac nastepujace polecenia:
+---
+> conda info                                                                              # wyswietlenie ogolnych informacji o srodowisku Anaconda3
+> conda -V                                                                                # wyswietlenie wersji instalatora conda
+> conda update conda                                                                      # aktualizacja instalatora conda
+> conda create -n draft python=3.8.8 anaconda=2021.05                                     # utworzenie roboczego srodowiska wirualnego z podana wersja python3 i anaconda3 w sciezce globalnej: C:\ProgramData\Anaconda3\envs\draft
+> conda activate draft                                                                    # aktywacja srodowiska roboczego jako biezacego do instalacji ponizszego pakietu pytorch dla cuda
+> conda install -n draft pytorch==2.0.1 torchvision==0.15.2 torchaudio==2.0.2 pytorch-cuda=11.8 -c pytorch -c nvidia
+> conda deactivate                                                                        # deaktywacja srodowiska roboczego i powrot do srodowiska bazowego 
+> conda clean -t                                                                          # usuniecie sciagnietych plikow tar ze instalatora conda
+> conda list -n base                                                                      # wyswietlenie listy zainstalowanych pakietow w srodowisku bazowym
+> conda list -n draft                                                                     # wyswietlenie listy zainstalowanych pakietow w srodowisku roboczym
+> rem conda remove -n draft -all                                                          # ewentualne usuniecie srodowiska roboczego i wszystkich jego pakietow
+> exit                                                                                    # wyjscie ze powloki
+---
+
+Dodac sciezke "%CONDA_PREFIX%\envs\draft\bin\" do konca zmiennej PATH
+
+Uruchomic w srodowisku Anaconda3 powloke "Conda Prompt" w trybie uzytkownika i wykonac nastepujace polecenia:
+---
+> conda activate draft
+> d:
+> cd d:\projects
+> spyder
+> rem jupyter-notebook
+> conda deactivate
+> exit
+---
+co spowoduje uruchomienie programu Spyder lub "Jupyter Notebook" wraz z interpreterem Python3 w srodowisku roboczym z ktorego beda importowane pakiety i moduly
+
+Uwaga: Wszystkie operacje dotyczace tworzenia nowego srodowiska wirtualnego oraz jego aktywacji mozna wykonac wprost w programie "Anaconda Navigator" 
+       a nastepnie tamze mozna uruchomic program Spyder lub przejsc do notatnik "Anaconda Notebook" dla aktywowanego srodowiska bazowego lub roboczego
+
+Uwaga: Tworzenie srodowiska roboczego w trybie uzytkownika spowoduje wybor sciezki lokalnej c:\Users\<User>\.conda\envs\draft
+       dla tego srodowiska zamiast sciezki globalnej C:\ProgramData\Anaconda3\envs\draft wybieranej w trybie administratora
+
+Uwaga: Instalacja p/w wersji pakietu pytorch z cuda 11.8 wymaga obecnosci w systemie karty GPU ze wsparciem przez cuda 11.8 
+       oraz z zainstalowanym sterownikiem Nvidia odpowiednim dla tej karty i wersji cuda, mianowicie sterownik wspierajacy 
+       cuda 11.x musi miec wersje co najmniej 452.39, np. dla karty "Quadro K620" oraz systemu "Windows Server 2012 R2 x64"
+       (english) sterownik wydany w dn. 2021-10-13 posiada wersje 30.0.14.7239 (472.39)
+       
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

@@ -1,0 +1,29 @@
+Instalacja srodowiska skryptowego jezyka Python
+-----------------------------------------------
+
+Zainstalowac domyslnie w systemie srodowisko Python2 z pliku "python-2.7.15.msi"
+
+Przekopiowac plik C:\Python27\python.exe do pliku C:\Python27\python2.exe 
+Przekopiowac plik C:\Python27\pythonw.exe do pliku C:\Python27\pythonw2.exe 
+
+Zainstalowac domyslnie w srodowisku Python2 pakiet naukowy z pliku "Scipy-stack-14.2.16.win32-py2.7.exe"
+
+Zainstalowac domyslnie w systemie srodowisko IronPython2 dla .NET 4.5 z pliku "IronPython-2.7.11.msi"
+
+Zainstalowac domyslnie w systemie srodowisko Python3 z pliku "python-3.3.2.msi"
+
+Przekopiowac plik C:\Python33\python.exe do pliku C:\Pythpn33\python3.exe 
+Przekopiowac plik C:\Python33\pythonw.exe do pliku C:\Pythpn33\pythonw3.exe 
+
+Zainstalowac domyslnie w srodowisku Python3 pakiet naukowy z pliku "Scipy-stack-14.2.16.win32-py3.3.exe"
+
+Zainstalowac domyslnie w systemie srodowisko IronPython3 dla .NET 4.6.2 z pliku "IronPython-3.4.1.msi"
+
+Zainstalowac przy uzyciu "Visual Studio Installer" w srodowisku VStudio2017+ pakiet "Python Development"
+natomiast dla wczesniejszego srodowiska VStudio2015 uruchomic osobny instalator "PTVS 2.2.6 VS 2015.msi"
+
+Uwaga: Przed instalacja sprawdzic czy srodowiska i ich pakiety sa juz zainstalowane w systemie
+
+Uwaga: W folderze Menu znajduja sie skroty najwazniejszych polecen dla zainstalowanych srodowisk
+
+Uwaga: W folderze Linki znajduja sie adresy stron internetowych dla zainstalowanych srodowisk i ich pakietow
