@@ -1,0 +1,116 @@
+Katowice 2026-04-27
+
+
+Programowanie obliczen komputerowych
+Laboratorium 4
+
+
+Sebastian Legierski 301954
+Informatyka Przemyslowa, Stopien II, Semestr 2
+Wydzial Inzynierii Materialowej i Cyfryzacji Przemyslu, Politechnika Slaska
+
+
+# Wprowadzenie
+
+Rozwiazania do laboratorium 4 zostaly przygotowane w notatnikach Jupyter z wykorzystaniem bibliotek NumPy oraz Matplotlib, a w zadaniach zwiazanych z analiza matematyczna rowniez narzedzi obliczen specjalnych i symbolicznych. W przeciwienstwie do poprzednich laboratoriow duza czesc pracy polegala tu nie tylko na wypisaniu tabel, ale takze na porownaniu funkcji na wykresach.
+
+Laboratorium 4 dotyczylo analizy zlozonosci rekurencji, numerycznego sprawdzenia zaleznosci calkowych, porownania pochodnej z ilorazami roznicowymi oraz porownania dokladnej calki z jej przyblizeniem przez sumy. W ponizszym sprawozdaniu celowo nie zamieszczono gotowych fragmentow kodu ani wynikow, pozostawiajac miejsce do recznego uzupelnienia.
+
+
+# Zadanie wlmzad01
+
+## Tresc zadania
+
+Nalezalo zbadac rekurencje T(n) = n + 2*T(n/2) i porownac jej wzrost z funkcja wzorcowa opisujaca rzad zlozonosci.
+
+## Analiza polecenia
+
+Rekurencja ma postac typowa dla algorytmow dziel i zwyciezaj. Dla takich zadan spodziewany jest wzrost rzedu n log n. Program wyznacza wartosci funkcji dla kolejnych n, porownuje je z funkcja wzorcowa oraz rysuje oba przebiegi na wspolnym wykresie.
+
+## Kod
+
+---- wlmzad01.ipynb -----
+
+## Wynik
+
+---- uzupelnij recznie na podstawie wlmzad01.ipynb -----
+
+## Wnioski
+
+Porownanie przebiegow pozwala sprawdzic, czy badana rekurencja ma oczekiwany rzad wzrostu. Zadanie pokazuje praktyczne potwierdzenie zaleznosci znanych z analizy algorytmow.
+
+
+# Zadanie wlmzad02
+
+## Tresc zadania
+
+W zadaniu nalezalo numerycznie sprawdzic zaleznosc pomiedzy odpowiednia calka a funkcja Bessela i0(v).
+
+## Analiza polecenia
+
+Program oblicza wartosci calki dla kolejnych punktow parametru v i porownuje je z wartosciami funkcji specjalnej. Jezeli zaleznosc jest poprawna, roznice pomiedzy tymi wartosciami powinny byc bardzo male w calym badanym zakresie.
+
+## Kod
+
+---- wlmzad02.ipynb -----
+
+## Wynik
+
+---- uzupelnij recznie na podstawie wlmzad02.ipynb -----
+
+## Wnioski
+
+Zadanie pozwala potwierdzic zgodnosc obliczen numerycznych z teoria funkcji specjalnych. Jest to dobry przyklad polaczenia obliczen calkowych z gotowymi narzedziami bibliotecznymi.
+
+
+# Zadanie wlmzad03
+
+## Tresc zadania
+
+Nalezalo wyznaczyc pochodna funkcji g(x) = tan(x^3) - 4*tan(x), porownac ja z granica ilorazu roznicowego oraz sprawdzic, jak przyblizenie zalezy od kroku h.
+
+## Analiza polecenia
+
+Program wyznacza pochodna symbolicznie, a nastepnie porownuje ja z ilorazem roznicowym liczonym dla kilku roznych wartosci kroku. Pozwala to zobaczyc, jak zmniejszanie h poprawia jakosc przyblizenia pochodnej.
+
+## Kod
+
+---- wlmzad03.ipynb -----
+
+## Wynik
+
+---- uzupelnij recznie na podstawie wlmzad03.ipynb -----
+
+## Wnioski
+
+Zadanie dobrze pokazuje zwiazek miedzy definicja pochodnej a jej interpretacja numeryczna. Im mniejszy krok roznicowy, tym przyblizenie jest zwykle blizsze wartosci oczekiwanej.
+
+
+# Zadanie wlmzad04
+
+## Tresc zadania
+
+W ostatnim zadaniu nalezalo wyznaczyc calke funkcji g(x) = sin^2(x) * cos^4(x) oraz porownac wartosci dokladne z sumami aproksymacyjnymi wyznaczanymi numerycznie.
+
+## Analiza polecenia
+
+Program symbolicznie calkuje dana funkcje, a nastepnie zestawia wynik dokladny z wartosciami uzyskanymi z przyblizonej sumy numerycznej dla roznych liczb podprzedzialow. Dzieki temu mozna obserwowac wplyw gestosci podzialu na blad aproksymacji.
+
+## Kod
+
+---- wlmzad04.ipynb -----
+
+## Wynik
+
+---- uzupelnij recznie na podstawie wlmzad04.ipynb -----
+
+## Wnioski
+
+Porownanie calki dokladnej z suma przyblizona pokazuje, ze jakosc wyniku zalezy od liczby podzialow przedzialu. Zadanie potwierdza, ze dokladnosc metod numerycznych wymaga swiadomego doboru parametrow obliczen.
+
+
+# Podsumowanie
+
+Laboratorium 4 laczylo elementy analizy algorytmow, obliczen numerycznych i analizy symbolicznej. Kolejne zadania pokazaly, jak porownywac wzory teoretyczne z obliczeniami praktycznymi oraz jak interpretowac otrzymane wykresy i przyblizenia.
+
+Najwazniejszy wniosek z calego laboratorium jest taki, ze sama postac wzoru teoretycznego nie wystarcza bez sprawdzenia jego zachowania w obliczeniach. W praktyce trzeba analizowac tempo wzrostu, zbieznosc oraz wielkosc bledu dla roznych parametrow.

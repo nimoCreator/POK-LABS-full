@@ -1,0 +1,13 @@
+    ====================================
+    ZADANIE moA06zad2
+    ------------------------------------
+    n = 5  m = 1000  seed = 301954
+
+    liczba przypadkow z rozwiazaniem = 1000
+    liczba przypadkow bez rozwiazania = 0
+    sredni blad wzgledny db = 4.232465e-015
+    maksymalny blad wzgledny db = 5.101973e-012
+
+    ------------------------------------
+    rozwiazanie zajelo: 6.318 ms
+    ====================================
