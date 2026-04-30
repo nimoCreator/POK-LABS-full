@@ -13,8 +13,8 @@ tscnt = 100 # liczba rekordow w zbiorze testowym
 shift = 10 # przesuniecie znakow alfabetu w szyfrze Cezara
 
 def genLine():
-    n = shift # biezace przesuniecie w szyfrze Cezara
-    dat = np.random.randint(0, chcnt-1, isize)
+    n = shift # biezace stale przesuniecie w szyfrze Cezara
+    dat = np.random.randint(0, chcnt, isize)
     cph = str().join(chars[(i+n) % chcnt] for i in dat)
     pln = str().join(chars[i] for i in dat)
     return cph+"\t"+pln+"\n"

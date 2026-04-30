@@ -1,0 +1,4 @@
+﻿<hostctls:hostControls xmlns:hostctls="http://schemas.microsoft.com/2004/VisualStudio/Tools/Applications/HostControls.xsd">
+  <hostctls:windowsFormsHostControl hostctls:name="ModelowanieKomputerowe_PanelWahadla" hostctls:primaryType="ModelowanieKomputerowe.PanelWahadla" hostctls:extenderType="Microsoft.Office.Interop.Word._OLEControl" />
+  <hostctls:windowsFormsHostControl hostctls:name="ModelowanieKomputerowe_WidokWahadla" hostctls:primaryType="ModelowanieKomputerowe.WidokWahadla" hostctls:extenderType="Microsoft.Office.Interop.Word._OLEControl" />
+</hostctls:hostControls>

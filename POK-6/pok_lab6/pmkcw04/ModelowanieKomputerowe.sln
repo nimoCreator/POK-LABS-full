@@ -1,0 +1,38 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 10.00
+# Visual Studio 2008
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Model", "Model\Model.csproj", "{7F04B443-D2EF-4FD2-B790-EDF498B6090B}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Widok", "Widok\Widok.csproj", "{F780F7AE-6BDF-4C69-A17D-76D57E273298}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Panel", "Panel\Panel.csproj", "{F0CD9593-A57D-4FA9-A29F-6286908C9177}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "_Opis_", "_Opis_\_Opis_.csproj", "{70267B33-59B0-4D13-B46A-765579DFE3DA}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{7F04B443-D2EF-4FD2-B790-EDF498B6090B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7F04B443-D2EF-4FD2-B790-EDF498B6090B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7F04B443-D2EF-4FD2-B790-EDF498B6090B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7F04B443-D2EF-4FD2-B790-EDF498B6090B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F780F7AE-6BDF-4C69-A17D-76D57E273298}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F780F7AE-6BDF-4C69-A17D-76D57E273298}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F780F7AE-6BDF-4C69-A17D-76D57E273298}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F780F7AE-6BDF-4C69-A17D-76D57E273298}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F0CD9593-A57D-4FA9-A29F-6286908C9177}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F0CD9593-A57D-4FA9-A29F-6286908C9177}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F0CD9593-A57D-4FA9-A29F-6286908C9177}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F0CD9593-A57D-4FA9-A29F-6286908C9177}.Release|Any CPU.Build.0 = Release|Any CPU
+		{70267B33-59B0-4D13-B46A-765579DFE3DA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{70267B33-59B0-4D13-B46A-765579DFE3DA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{70267B33-59B0-4D13-B46A-765579DFE3DA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{70267B33-59B0-4D13-B46A-765579DFE3DA}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal

@@ -1,4 +1,4 @@
-﻿"""********************************************************************"""
+"""********************************************************************"""
 """* Zastosowanie modulu PyTorch do rozwiazywania rownania przez siec *"""
 """* neuronowa jako przyklad przetwarzania ogolnego problemu regresji *"""
 """********************************************************************"""
@@ -8,147 +8,195 @@ import torch.autograd as autograd
 import torch.nn as nn
 import torch.optim as optim
 import matplotlib.pyplot as plt
+from time import time
+import math
+import numpy as np
+
+# Narzedzia programu
+def toStr(frm, lst):
+    return "["+(", ".join(frm % arg for arg in lst))+"]"
+compType = torch.float32 if torch.cuda.is_available() else torch.float64
+compDevice = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
+print("\nComputation type:", compType)
+print("\nComputation device:", compDevice)
+
+# Podane wartosci dla zakresu obliczen, warunku poczatkowego i wspolczynnika w rownaniu
+xBegin = 0.0
+xEnd = 20.0
+xInit = 0.0
+yInit = 50.0
+kConst = 0.25
+
+# Wartosci pozostalych hiperparametrow programu
+numArgs = 1  # liczba argumentow w rownaniu
+numVals = 1  # liczba wartosci rozwiazania 
+numPoints = 100  # liczba punktow dziedziny
+netDepths = [128, 128]  # liczby neuronow w warstwach ukrytych
+learnRate = 0.01  # tempo uczenia sieci
+learnSpan = 1000  # zasieg petli uczenia
 
 #
-# Wybor platformy sprzetowej do obliczen rownoleglych
+# Procedura obliczania pochodnej z podanego wyjscia sieci po podanym wejsciu
 #
 
-device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
-print("device:",device)
+def differentiation(X, inp, Y, out):
+    Y_out = torch.zeros_like(Y).to(compDevice)
+    Y_out[:,out] = 1
+    (grad_Y_X,) = autograd.grad(Y, (X,), grad_outputs=Y_out, create_graph=True)
+    dY_dX = grad_Y_X[:,inp:inp+1]
+    return dY_dX
 
 #
-# Definicja sieci neuronowej (PINN) sterowanej równaniem różniczkowym z konstrukcyjnym warunkiem początkowym
+# Definicja sieci neuronowej PINN sterowanej przykladowym 
+# rownaniem rozniczkowym I rzedu rozladowania kondensatora
 #
 
 class Equation(nn.Module):
-    def __init__(self, xo, yo, kc, depth):
+    def __init__(self, xo, yo, kc, d, n, m):
         super(Equation, self).__init__()
         
-        self.inix = xo
-        self.iniy = yo
-        self.conk = kc
+        self.inix = xo  # poczatkowa wartosc argumentu rozwiazania - czas poczatkowy to
+        self.iniy = yo  # poczatkowa wartosc szukanej funkcji - poczatkowe natezenie pradu Io
+        self.conk = kc  # staly wspolczynnik w rownaniu - odwrotnosc stalej czasowej tau = RC
 
-        self.lossfun = nn.MSELoss(reduction ='mean')
-        self.actfun = nn.Tanh()
-        self.netdepth = depth
-        self.indim = 1
-        self.outdim = 1
+        self.losf = nn.MSELoss(reduction ='mean')  # funkcja straty "mean squared error" w problemie regersji
+        self.hids = d  # rozmiary warstw ukrytych (glebie sieci)
+        self.inps = n  # rozmiar portu wejsciowego sieci
+        self.outs = m  # rozmiar portu wyjsciowego sieci
 
-        self.netchain = nn.Sequential(
-            nn.Linear(self.indim, self.netdepth),
-            self.actfun,
-            nn.Linear(self.netdepth, self.netdepth),
-            self.actfun,
-            nn.Linear(self.netdepth, self.netdepth),
-            self.actfun,
-            nn.Linear(self.netdepth, self.netdepth),
-            self.actfun,
-            nn.Linear(self.netdepth, self.outdim)
-        )
+        self.chain = nn.Sequential(  # lancuchowa siec z warstwami nueronu liniowego i nieliniowa funkcja aktywacji - zainicjowana niejawnie zerami lub losami
+            nn.Linear(self.inps, self.hids[0], dtype=compType),
+            nn.Tanh(),
+            nn.Linear(self.hids[0], self.hids[1], dtype=compType),
+            nn.Tanh(),
+            nn.Linear(self.hids[1], self.hids[1], dtype=compType),
+            nn.Tanh(),
+            nn.Linear(self.hids[1], self.hids[0], dtype=compType),
+            nn.Tanh(),
+            nn.Linear(self.hids[0], self.outs, dtype=compType)
+        ).to(compDevice)
 
-    def prediction(self, X): # Rozwiazanie liczbowe przewidywane przez siec neuronowa w konstrukcji warunku poczatkowego
-        Y = (X - self.inix) * self.netchain(X) + self.iniy
+    def prediction(self, X):  # wartosci rozwiazania rownania przewidywanego przez siec dla podanego argumentu
+        Y = (X - self.inix) * self.chain(X) + self.iniy  # konstrukcyjne przylozenie warunku poczatkowego
         return Y
     
-    def regression(self, aX): # Strata w regresji dla rownania na rozladowanie kondensatora w obwodzie elektrycznym RC
-        X = aX.clone()
+    def regression(self, aX):  # strata w regresji dla rownania na rozladowanie kondensatora w obwodzie elektrycznym RC
+        X = aX.clone()  # postepowa propagacja wejscia na wyjscie w sieci
         Y = self.forward(X)
-        dY_dX = autograd.grad(Y,X,grad_outputs=torch.ones([X.shape[0],1]).to(device), retain_graph=True, create_graph=True)[0]
-        L = self.lossfun(dY_dX, -self.conk * Y) # funkcja straty z lewej i prawej strona rownania
+
+        dY_dX = differentiation(X, 0, Y, 0)  # wstecznie liczona pierwsza i druga pochodna z j-tego wyjscia sieci po i-tym wejscie sieci
+        
+        left = dY_dX  # lewa strona rownania
+        right = -self.conk * Y  # prawa strona rownania
+        L = self.losf(left, right)  # funkcja straty sterowana rownaniem w uczeniu nienadzorowanym
+
         return L
 
-    def solution(self, X): # Referencyjne rozwiazanie rownania otrzymane numerycznie lub metoda calkowania symbolicznego
+    def solution(self, X):  # referencyjne rozwiazanie rownania otrzymane numerycznie lub metoda calkowania symbolicznego
         Y = self.iniy * torch.exp(-self.conk * (X - self.inix))
         return Y
     
-    def forward(self, X): # Pokrycie definicji metody postepowej dla modulu sieciowego nn.Module
+    def forward(self, X):  # pokrycie metody propagacji postepowej z modulu sieciowego nn.Module do wywolania na zewnatrz poprzez operator()
         return self.prediction(X)
 
 #
 # Inicjowanie srodowiska obliczeniowego
 #
 
-# Podane wartosci dla zakresu obliczen, warunku poczatkowego i stalej w rownaniu
-x_beg = 0.0
-x_end = 10.0
-x_init = 0.0
-y_init = 1.0
-k_cnst = 2.0
-
-# Wartosci pozostalych hiperparametrow w obliczeniach
-numpoints = 100
-netdepth = 128
-learnrate = 0.01
-numepochs = 1000
-
 # Utworzenie danych punktow obliczeniowych do rozwiazywania rownania
-X_data = torch.linspace(x_beg,x_end,numpoints).view(-1,1).requires_grad_(True)
-x_data = X_data.detach().numpy()
+xDatTensor = torch.linspace(xBegin, xEnd, numPoints*numArgs, dtype=compType, requires_grad=True).reshape(numPoints,numArgs).to(compDevice)
+xDatTable = xDatTensor.detach().cpu().numpy()
+print("\nData arguments =", xDatTable[:min(10,numPoints)])
 
-# Utworzenie sieci neuronowej jako modelu solwera rownania
-model = Equation(x_init, y_init, k_cnst, netdepth)
+# Utworzenie modelu solwera rownania i jego optymalizatora
+model = Equation(xInit, yInit, kConst, netDepths, numArgs, numVals)
+model.to(compDevice)
+optimizer = optim.Adam(model.parameters(), lr=learnRate, amsgrad=False)
+print("\nSolver model:", model)
+print("\nModel optimizer:", optimizer)
 
-# Otrzymanie rozwiazania przewidywanego przez siec neuronowa
-Y_pred = model.prediction(X_data)
-y_pred = Y_pred.detach().numpy()
+# Wyznaczenie rozwiazania symbolicznego lub numerycznego (referencyjnego)
+ySolTensor = model.solution(xDatTensor)
+ySolTable = ySolTensor.detach().cpu().numpy()
+print("\nSolution values =", ySolTable[:min(10,numPoints)])
 
-# Wyznaczenie rozwiazania referencyjnego (symnolicznego lub numerycznego)
-Y_refs = model.solution(X_data)
-y_refs = Y_refs.detach().numpy()
+# Przewidywanie rozwiazania przez model przed uczeniem
+yPredTensor = model.prediction(xDatTensor)
+yPredTable = yPredTensor.detach().cpu().numpy()
+print("\nSolution predictions =", yPredTable[:min(10,numPoints)])
 
 # Poczatkowy wykres wynikow obliczen
 plt.figure(figsize=(8, 6))
-plt.plot(x_data, y_refs, 'r-',  label='referencyjne')
-plt.plot(x_data, y_pred, 'b--', label='przewidywane')
-plt.xlabel('x')
-plt.ylabel('y')
+plt.plot(xDatTable, ySolTable, 'r-',  label="solution")
+plt.plot(xDatTable, yPredTable, 'b--', label="prediction")
+plt.xlabel("x")
+plt.ylabel("y")
 plt.legend()
-plt.title('Rozwiazanie rownania przed uczeniem sieci')
+plt.title("Before training")
 plt.show()
 
 #
-# Uczenie sieci neronowej modelujacej rownanie w problemie regresji
+# Uczenie sieci neuronowej modelujacej rownanie w problemie regresji
 #
 
-print("model:",model)
-model.to(device)
-optimizer = optim.Adam(model.parameters(),lr=learnrate,amsgrad=False)
+print("\nTraining epochs:", learnSpan);
 epochs = []
 losses = []
-for epoch in range(numepochs):
-    L_regr = model.regression(X_data)
+model.train()
+trainStart = time()
+for epoch in range(learnSpan+1):
+    loss = model.regression(xDatTensor)
     optimizer.zero_grad()
-    L_regr.backward()
+    loss.backward()
     optimizer.step()
-    if epoch%(numepochs/100)==0:
-        loss = L_regr.item()
+    aloss = loss.item()
+    if epoch%(learnSpan/100)==0:
         epochs.append(epoch)
-        losses.append(loss)
-    if epoch%(numepochs/10)==0:
-        print("epoch:",epoch,", loss:",loss)
+        losses.append(aloss)
+    if epoch%(learnSpan/10)==0:
+        print("epoch:", epoch, "/", learnSpan, ", loss: %.8f" % aloss)
+trainStop = time()
+model.eval()
+trainTime = (trainStop-trainStart)/60.0
+print("\nTraining time: %.2f minutes" % trainTime)
 
 plt.figure(figsize=(8, 6))
 plt.plot(epochs, losses, 'g-')
-plt.xlabel('i')
-plt.ylabel('L')
-plt.title('Strata w procesie uczenia sieci')
+plt.xlabel("epochs")
+plt.ylabel("loss")
+plt.title("Training loss")
 plt.show()
 
 #
 # Ewaluacja nauczonej sieci
 #
 
-# Otrzymanie rozwiązania przewidywanego przez nauczona siec neuronowa
-Y_pred = model.prediction(X_data)
-y_pred = Y_pred.detach().numpy()
+# Przewidywanie rozwiazania przez model po uczeniu
+yPredTensor = model.prediction(xDatTensor)
+yPredTable = yPredTensor.detach().cpu().numpy()
+print("\nSolution predictions =", yPredTable[:min(10,numPoints)])
+
+# Obliczenie miar bledu/dokladnosci dopasowania przewidywan do rozwiazan
+yMSEValue = 0.5*np.mean((yPredTable - ySolTable)**2)  # blad sredniokwadratowy (mean squared error)
+print("\nPrediction MSE value: %.10f" % yMSEValue)
+yRMSEValue = math.sqrt(yMSEValue)  # pierwiastek z bledu sredniokwadratowego (root-mean-square error)
+print("\nPrediction RMSE value: %.7f" % yRMSEValue)
+yMEValue = np.max(np.abs(yPredTable - ySolTable))  # maksymalny blad bezwgledny (maximal error)
+print("\nPrediction ME value: %.5f" % yMEValue)
+yMAEValue = np.mean(np.abs(yPredTable - ySolTable))  # sredni blad bezwgledny (mean absolute error)
+print("\nPrediction MAE value: %.5f" % yMAEValue)
+yMREValue = np.mean(np.abs(yPredTable - ySolTable)/np.abs(ySolTable))  # sredni blad wzgledny (mean relative error) 
+print("\nPrediction MRE value: %.5f" % yMREValue)
+yAccuracy = np.clip(1.0 - yMREValue, 0.0, 1.0)*100.0  # procentowa miara dokladnosci
+print("\nPrediction accuracy: %.5f" % yAccuracy, "%")
 
 # Koncowy wykres wynikow obliczen
 plt.figure(figsize=(8, 6))
-plt.plot(x_data, y_refs, 'r-',  label='referencyjne')
-plt.plot(x_data, y_pred, 'b--', label='przewidywane')
-plt.xlabel('x')
-plt.ylabel('y')
+plt.plot(xDatTable, ySolTable, 'r-',  label="solution")
+plt.plot(xDatTable, yPredTable, 'b--', label="prediction")
+plt.xlabel("x")
+plt.ylabel("y")
 plt.legend()
-plt.title('Rozwiazanie rownania dla sieci nauczonej')
+plt.title("After training")
 plt.show()
 
