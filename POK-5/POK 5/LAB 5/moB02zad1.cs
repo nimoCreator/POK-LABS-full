@@ -5,6 +5,8 @@ namespace POK_5;
 
 internal sealed class MoB02Zad1 : IZadanie
 {
+    public string Nazwa => "moB02zad1";
+
     private readonly int _n;
     private readonly double _a;
     private readonly double _b;
@@ -28,7 +30,7 @@ internal sealed class MoB02Zad1 : IZadanie
         _seed = seed;
     }
 
-    public string Nazwa => "moB02zad1";t
+    public void Run(TextWriter writer)
     {
         int nodeCount = _n + 1;
         var random = new Random(_seed);

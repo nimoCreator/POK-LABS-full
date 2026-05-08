@@ -1,177 +1,420 @@
-Katowice 2026-05-08
+# Sprawozdanie - Laboratorium 5
+
+## Wprowadzenie
+
+Celem laboratorium bylo przygotowanie i przetestowanie zestawu programow numerycznych w jezyku C#. Rozwiazania znajduja sie w katalogu `POK 5/LAB 5`, a wyniki obliczen sa zapisywane do katalogu `POK_5_results`. Kazde zadanie jest osobna klasa implementujaca interfejs `IZadanie`, dzieki czemu program glowny moze uruchamiac wybrane zadania i automatycznie zapisywac rezultaty do plikow tekstowych.
+
+W laboratorium wykonano zadania dotyczace interpolacji, aproksymacji SPH, symulacji przewodnictwa cieplnego, regresji liniowej, optymalizacji perceptronu, optymalizacji aproksymanta oraz metody Monte Carlo z wyzarzaniem.
+
+W kazdym zadaniu miejsce na kod i wyniki zostalo zostawione osobno:
+
+/ KOD z pliku moB02zadX.cs
+
+/ Wyniki z pliku moB02zadX.txt
+
+/ Wykres
 
 
-Programowanie obliczen komputerowych
-Laboratorium 5
+# Zadanie 1 - interpolacja Newtona
 
+## Cel zadania
 
-Sebastian Legierski 301954
-Informatyka Przemyslowa, Stopien II, Semestr 2
-Wydzial Inzynierii Materialowej i Cyfryzacji Przemyslu, Politechnika Slaska
+Celem zadania bylo skonstruowanie wielomianu interpolacyjnego Newtona dla losowo wygenerowanych wezlow i wartosci funkcji. Program wyznacza wspolczynniki wielomianu za pomoca ilorazow roznicowych, a nastepnie sprawdza warunki interpolacyjne.
 
+## Opis metody
 
-# Wprowadzenie
+Dla wielomianu stopnia `n` generowanych jest `n + 1` wezlow w przedziale `<a, b>`. Wartosci `y_i` sa losowane z przedzialu `<-1, 1>`. Nastepnie program oblicza wspolczynniki postaci Newtona, korzystajac z rekurencyjnej definicji ilorazow roznicowych oraz pamieci podrecznej w slowniku.
 
-W przekazanych materialach do laboratorium 5 znajdowaly sie gotowe pliki startowe `moB02cw1.cs`, `moB02cw2.cs`, `moB02cw3.cs` oraz biblioteka `moB02_fappr1d.cs`. Na ich podstawie przygotowano komplet rozwiazan dla czesci aproksymacyjnej, czyli zadan `moB02zad5`, `moB02zad6` oraz `moB02zad7`.
-
-Wszystkie programy zostaly zebrane w projekcie C# znajdujacym sie w katalogu `POK-5/POK 5`. Aproksymacja jest wykonywana metoda SPH z jadrem gaussowskim dla funkcji:
-
-f(x) = sin(x),  x z przedzialu [0, pi]
-
-W zadaniach badano kolejno:
-1. aproksymacje samej funkcji,
-2. aproksymacje pierwszej pochodnej,
-3. aproksymacje drugiej pochodnej.
-
-Dla kazdego zadania program porownuje kilka gestosci siatki i kilka wartosci nosnika `h`, oblicza maksymalny blad bezwzgledny oraz blad sredniokwadratowy `RMSE`, a dodatkowo zapisuje dane do wykresu do pliku CSV. Oprocz bledu w pelnym przedziale obliczany jest tez blad po obcieciu brzegow, bo w metodzie SPH to wlasnie na krancach dziedziny wystepuja najwieksze znieksztalcenia.
-
-
-# Zadanie moB02zad5
-
-## Tresc zadania
-
-Nalezy wykonac metoda SPH aproksymacje gaussowska funkcji `f(x)` oraz zapisac wyniki ewaluacji do pliku, a nastepnie zbadac blad aproksymacji i wplyw rozmiaru siatki oraz nosnika.
-
-## Analiza polecenia
-
-W zadaniu przyjeto funkcje `f(x) = sin(x)`. Dla kilku konfiguracji liczby wezlow oraz stosunku `h/krok` program buduje aproksymant, sprawdza jego zgodnosc z funkcja dokladna na 501 punktach kontrolnych i wybiera konfiguracje o najmniejszym bledzie `RMSE` w obcietym przedziale.
+Wielomian jest obliczany efektywnym schematem Hornera dla postaci Newtona. Poprawnosc rozwiazania sprawdzana jest przez porownanie `S(x_i)` z `y_i` dla wszystkich wezlow.
 
 ## Kod
 
-Kluczowe wywolanie dla wartosci funkcji:
+/ KOD z pliku moB02zad1.cs
 
-protected override double Approximate(Gauss1D approximator, double x)
-{
-    return approximator.Value(x);
-}
+## Wyniki
 
-Najlepsza konfiguracja jest wybierana automatycznie:
+/ Wyniki z pliku moB02zad1.txt
 
-StudyResult best = results
-    .OrderBy(r => r.TrimmedRange.RootMeanSquareError)
-    .ThenBy(r => r.TrimmedRange.MaxAbsoluteError)
-    .First();
-
-## Wynik
-
-Najlepsza konfiguracja:
-
-- liczba wezlow = 401
-- `h/krok = 1.50`
-- `krok = 0.007854`
-- `h = 0.011781`
-- obciecie brzegow = `0.035343`
-
-Bledy dla najlepszej konfiguracji:
-
-- pelny przedzial: `max = 3.064771e-003`, `rmse = 2.034961e-004`
-- przedzial obciety: `max = 3.469677e-005`, `rmse = 2.480885e-005`
-
-Dane do wykresu zostaly zapisane w pliku:
-
-`POK-5/POK_results/moB02zad5_plot.csv`
+## Wykresy
+/ Wykres - jezeli zostal przygotowany recznie na podstawie danych
 
 ## Wnioski
 
-Aproksymacja wartosci funkcji `sin(x)` okazala sie bardzo dokladna. Po obcieciu brzegow blad spada do poziomu `10^-5`, co pokazuje, ze glownym zrodlem niedokladnosci sa efekty brzegowe, a nie sama metoda aproksymacji.
+Interpolacja Newtona spelnia warunki interpolacyjne w wezlowych punktach danych. Maksymalny blad powinien byc bardzo maly i wynikac glownie z ograniczonej precyzji obliczen zmiennoprzecinkowych. Zaleta tej postaci jest mozliwosc wygodnego budowania wielomianu na podstawie ilorazow roznicowych.
 
 
-# Zadanie moB02zad6
+# Zadanie 2 - interpolacja Lagrange'a
 
-## Tresc zadania
+## Cel zadania
 
-Nalezy analogicznie wykonac aproksymacje gaussowska pierwszej pochodnej funkcji oraz zbadac blad i wplyw parametrow numerycznych.
+Celem zadania bylo zbudowanie wielomianu interpolacyjnego w postaci Lagrange'a dla tych samych zalozen: losowych wezlow oraz losowych wartosci funkcji.
 
-## Analiza polecenia
+## Opis metody
 
-Program nadal aproksymuje funkcje `sin(x)`, ale porownanie wykonuje z pochodna dokladna:
+Program generuje `n + 1` wezlow oraz odpowiadajace im wartosci `y_i`. Dla dowolnego punktu `x` obliczane sa wielomiany bazowe `L_i(x)`, a wynik interpolacji jest suma skladnikow `y_i * L_i(x)`.
 
-f'(x) = cos(x)
-
-Wartosci pochodnej aproksymanta sa liczone wzorem wbudowanym w klase `Approximator1D`, a nastepnie zestawiane z wartosciami dokladnymi.
+Tak jak w zadaniu 1, program sprawdza warunki interpolacyjne `S(x_i) = y_i`. Dodatkowo wypisywane sa wartosci bazowych wielomianow Lagrange'a w wybranym punkcie.
 
 ## Kod
 
-Najwazniejszy fragment dla pierwszej pochodnej:
+/ KOD z pliku moB02zad2.cs
 
-protected override double Approximate(Gauss1D approximator, double x)
-{
-    return approximator.Derivative(x);
-}
+## Wyniki
 
-## Wynik
+/ Wyniki z pliku moB02zad2.txt
 
-Najlepsza konfiguracja:
-
-- liczba wezlow = 401
-- `h/krok = 1.50`
-- `krok = 0.007854`
-- `h = 0.011781`
-- obciecie brzegow = `0.035343`
-
-Bledy dla najlepszej konfiguracji:
-
-- pelny przedzial: `max = 5.000174e-001`, `rmse = 3.433543e-002`
-- przedzial obciety: `max = 3.529394e-005`, `rmse = 2.426169e-005`
-
-Dane do wykresu zostaly zapisane w pliku:
-
-`POK-5/POK_results/moB02zad6_plot.csv`
+## Wykresy
+/ Wykres - jezeli zostal przygotowany recznie na podstawie danych
 
 ## Wnioski
 
-W przypadku pierwszej pochodnej sytuacja jest bardziej wymagajaca niz dla samej funkcji. W srodku przedzialu wyniki sa bardzo dobre, ale na brzegach pojawia sie duzy blad, przez co metryki dla calego przedzialu wygladaja znacznie gorzej. Po odrzuceniu fragmentow przybrzegowych dokladnosc znow schodzi do poziomu `10^-5`.
+Postac Lagrange'a daje ten sam wielomian interpolacyjny co postac Newtona, ale inny sposob jego zapisu. Program potwierdza zgodnosc wartosci interpolanta z wartosciami zadanymi w wezlach. Metoda jest czytelna matematycznie, lecz przy dodawaniu nowych wezlow mniej wygodna niz postac Newtona.
 
 
-# Zadanie moB02zad7
+# Zadanie 3 - interpolacja kawalkami liniowa
 
-## Tresc zadania
+## Cel zadania
 
-Nalezy wykonac aproksymacje gaussowska drugiej pochodnej funkcji, zapisac wyniki do pliku oraz porownac jakosc rozwiazan dla roznych wartosci gestosci siatki i nosnika.
+Celem zadania bylo wykonanie interpolacji kawalkami liniowej funkcji `f(x) = sin(x)` i ocena bledu interpolacji.
 
-## Analiza polecenia
+## Opis metody
 
-Druga pochodna badanej funkcji ma postac:
+Przedzial jest dzielony na rowne podprzedzialy. W kazdym z nich wartosc funkcji jest przyblizana prosta przechodzaca przez dwa sasiednie wezly. Program oblicza wartosci funkcji dokladnej oraz interpolanta w gestej siatce punktow kontrolnych.
 
-f''(x) = -sin(x)
-
-Jest to najtrudniejsza z trzech czesci, poniewaz druga pochodna wzmacnia zarowno lokalne bledy przyblizenia, jak i problemy na krawedziach przedzialu. Z tego powodu program ponownie raportuje bledy zarowno dla calej dziedziny, jak i dla przedzialu obcietego.
+Dla otrzymanych wynikow wyznaczany jest maksymalny blad bezwzgledny, punkt wystapienia tego bledu oraz blad sredniokwadratowy `RMSE`. Dane do wykresu sa zapisywane do pliku CSV.
 
 ## Kod
 
-Rdzen obliczen:
+/ KOD z pliku moB02zad3.cs
 
-protected override double Approximate(Gauss1D approximator, double x)
-{
-    return approximator.SecondDerivative(x);
-}
+## Wyniki
 
-## Wynik
+/ Wyniki z pliku moB02zad3.txt
 
-Najlepsza konfiguracja:
-
-- liczba wezlow = 401
-- `h/krok = 2.00`
-- `krok = 0.007854`
-- `h = 0.015708`
-- obciecie brzegow = `0.047124`
-
-Bledy dla najlepszej konfiguracji:
-
-- pelny przedzial: `max = 3.753454e+001`, `rmse = 3.352661e+000`
-- przedzial obciety: `max = 5.676744e-004`, `rmse = 5.739947e-005`
-
-Dane do wykresu zostaly zapisane w pliku:
-
-`POK-5/POK_results/moB02zad7_plot.csv`
+## Wykresy
+/ Wykres z pliku moB02zad3_plot.csv
 
 ## Wnioski
 
-Druga pochodna jest najbardziej wrazliwa na zaburzenia brzegowe. W pelnym przedziale blad jest bardzo duzy, ale po obcieciu brzegow wynik staje sie znow stabilny i dokladny. Oznacza to, ze sam rdzen metody dobrze odtwarza druga pochodna, natomiast praktyczne uzycie wymaga ostroznej interpretacji danych na koncach dziedziny.
+Interpolacja liniowa jest prosta i stabilna, ale dokladnosc zalezy od gestosci siatki. Dla funkcji gladkiej, takiej jak `sin(x)`, blad maleje wraz ze zmniejszaniem kroku dyskretyzacji. Najwieksze roznice pojawiaja sie zwykle w miejscach, gdzie funkcja ma wieksza krzywizne.
+
+
+# Zadanie 4 - interpolacja kawalkami kwadratowa
+
+## Cel zadania
+
+Celem zadania bylo wykonanie interpolacji kawalkami kwadratowej funkcji `f(x) = sin(x)` oraz porownanie jej dokladnosci z interpolacja liniowa.
+
+## Opis metody
+
+W tym zadaniu funkcja jest przyblizana lokalnie wielomianami drugiego stopnia. Program wykorzystuje punkty z siatki do wyznaczania fragmentow interpolanta, a nastepnie ocenia blad w gestej siatce punktow kontrolnych.
+
+Wyniki obejmuja maksymalny blad bezwzgledny, punkt maksymalnego bledu oraz `RMSE`. Program zapisuje rowniez dane do wykresu.
+
+## Kod
+
+/ KOD z pliku moB02zad4.cs
+
+## Wyniki
+
+/ Wyniki z pliku moB02zad4.txt
+
+## Wykresy
+/ Wykres z pliku moB02zad4_plot.csv
+
+## Wnioski
+
+Interpolacja kwadratowa powinna dawac mniejsze bledy niz interpolacja liniowa, poniewaz lepiej odtwarza lokalna krzywizne funkcji. Dla funkcji `sin(x)` metoda ta jest szczegolnie korzystna przy umiarkowanej liczbie wezlow.
+
+
+# Zadanie 5 - aproksymacja SPH funkcji jednej zmiennej
+
+## Cel zadania
+
+Celem zadania bylo wykonanie aproksymacji gaussowskiej SPH funkcji `f(x) = sin(x)` na przedziale `<0, pi>`.
+
+## Opis metody
+
+Program tworzy jednowymiarowy aproksymator `Gauss1D`. W wezlach siatki zapisuje wartosci funkcji `sin(x)`, a nastepnie oblicza wartosci aproksymanta w punktach kontrolnych. Badany jest wplyw liczby wezlow `N` oraz nosnika jadra `h` na blad.
+
+Poniewaz metoda SPH moze generowac wieksze bledy przy brzegach, program wyznacza metryki bledu zarowno w calym przedziale, jak i po obcieciu fragmentow brzegowych.
+
+## Kod
+
+/ KOD z pliku moB02zad5.cs
+
+## Wyniki
+
+/ Wyniki z pliku moB02zad5.txt
+
+## Wykresy
+/ Wykres z pliku moB02zad5_plot.csv
+
+## Wnioski
+
+Aproksymacja SPH dobrze odtwarza przebieg funkcji `sin(x)` w srodku przedzialu. Najwiekszym problemem sa efekty brzegowe, dlatego porownanie bledu dla calego i obcietego przedzialu jest istotne przy ocenie jakosci metody.
+
+
+# Zadanie 6 - aproksymacja SPH pierwszej pochodnej
+
+## Cel zadania
+
+Celem zadania bylo przyblizenie pierwszej pochodnej funkcji `f(x) = sin(x)` metoda SPH i porownanie wyniku z pochodna dokladna `f'(x) = cos(x)`.
+
+## Opis metody
+
+Program wykorzystuje ten sam aproksymator gaussowski co w zadaniu 5, ale zamiast wartosci funkcji oblicza pochodna aproksymanta. Wyniki sa porownywane z funkcja `cos(x)`.
+
+Takze tutaj badany jest wplyw liczby wezlow i nosnika `h`, a bledy liczone sa osobno dla calego przedzialu oraz dla przedzialu z obcietymi brzegami.
+
+## Kod
+
+/ KOD z pliku moB02zad6.cs
+
+## Wyniki
+
+/ Wyniki z pliku moB02zad6.txt
+
+## Wykresy
+/ Wykres z pliku moB02zad6_plot.csv
+
+## Wnioski
+
+Aproksymacja pochodnej jest bardziej wrazliwa na parametry numeryczne niz aproksymacja samej funkcji. Bledy przy brzegach moga byc znacznie wieksze, natomiast w srodkowej czesci przedzialu metoda zachowuje wysoka dokladnosc.
+
+
+# Zadanie 7 - aproksymacja SPH drugiej pochodnej
+
+## Cel zadania
+
+Celem zadania bylo przyblizenie drugiej pochodnej funkcji `f(x) = sin(x)` metoda SPH i porownanie wyniku z wartoscia dokladna `f''(x) = -sin(x)`.
+
+## Opis metody
+
+Program oblicza druga pochodna aproksymanta gaussowskiego i zestawia ja z funkcja referencyjna. Poniewaz druga pochodna wzmacnia lokalne bledy, zadanie jest bardziej wymagajace od zadania 5 i 6.
+
+Kod analizuje kilka konfiguracji siatki oraz nosnika `h`. Wyniki obejmuja maksymalny blad bezwzgledny i `RMSE` dla calego oraz obcietego przedzialu.
+
+## Kod
+
+/ KOD z pliku moB02zad7.cs
+
+## Wyniki
+
+/ Wyniki z pliku moB02zad7.txt
+
+## Wykresy
+/ Wykres z pliku moB02zad7_plot.csv
+
+## Wnioski
+
+Druga pochodna jest najbardziej wrazliwa na efekty brzegowe. Nawet gdy w srodku przedzialu wynik jest poprawny, pelny blad moze byc duzy przez zachowanie aproksymanta na koncach dziedziny. Z tego powodu przy interpretacji wynikow nalezy osobno analizowac obszar przybrzegowy.
+
+
+# Zadanie 8 - dwuwymiarowa aproksymacja SPH
+
+## Cel zadania
+
+Celem zadania bylo wykonanie dwuwymiarowej aproksymacji gaussowskiej SPH funkcji `f(x, y) = sin(x) * sin(y)`.
+
+## Opis metody
+
+Program korzysta z klasy `Gauss2D` i tworzy regularna siatke wezlow w prostokacie. Dla kazdego wezla obliczana jest wartosc funkcji. Nastepnie aproksymant jest sprawdzany w siatce punktow kontrolnych.
+
+Badane sa rozne rozmiary siatki `N x M` oraz wartosci nosnika `h`. Tak jak w zadaniach jednowymiarowych, program liczy blad w calym obszarze oraz po obcieciu brzegow.
+
+## Kod
+
+/ KOD z pliku moB02zad8.cs
+
+## Wyniki
+
+/ Wyniki z pliku moB02zad8.txt
+
+## Wykresy
+/ Wykres z pliku moB02zad8_plot.csv
+
+## Wnioski
+
+Dwuwymiarowa aproksymacja SPH dobrze przenosi idee z przypadku jednowymiarowego, ale jest bardziej kosztowna obliczeniowo. Jakosc wyniku zalezy od gestosci siatki, nosnika jadra oraz od tego, czy analizowany jest caly obszar, czy tylko jego czesc wewnetrzna.
+
+
+# Zadanie 9 - przewodnictwo cieplne metoda SPH
+
+## Cel zadania
+
+Celem zadania bylo zasymulowanie jednowymiarowego przewodnictwa cieplnego dla rownania Fouriera z wykorzystaniem metody SPH.
+
+## Opis metody
+
+Program rozwiazuje problem z warunkiem poczatkowym `T(x,t0) = 20` oraz stalymi warunkami brzegowymi `T(a,t) = 100` i `T(b,t) = 0`. Symulacja wykonywana jest dla przedzialu przestrzennego i czasowego z okreslona liczba wezlow oraz poziomow czasu.
+
+Kod porownuje dwa podejscia obliczeniowe, zapisuje serie czasowe oraz bada wplyw liczby wezlow `N`, mnoznika nosnika `eta` i mnoznika dyfuzyjnosci `q` na blad i stabilnosc rozwiazania.
+
+## Kod
+
+/ KOD z pliku moB02zad9.cs
+
+## Wyniki
+
+/ Wyniki z pliku moB02zad9.txt
+
+## Wykresy
+/ Wykres z plikow moB02zad9_podejscie1.xls, moB02zad9_podejscie2.xls lub moB02zad9_podejscie1.csv
+
+## Wnioski
+
+Symulacja ciepla pokazuje, ze metoda SPH moze byc wykorzystana nie tylko do aproksymacji funkcji, ale tez do rozwiazywania problemow ewolucyjnych. Stabilnosc i dokladnosc silnie zaleza od kroku czasowego, kroku przestrzennego, dyfuzyjnosci oraz nosnika jadra.
+
+
+# Zadanie 10 - regresja liniowa
+
+## Cel zadania
+
+Celem zadania bylo dopasowanie prostej `y = a*x + b` do sztucznie wygenerowanych danych zaburzonych losowo.
+
+## Opis metody
+
+Program generuje dane na podstawie znanych parametrow `alpha` i `beta`, dodajac male zaburzenie losowe. Nastepnie wyznacza wspolczynniki regresji liniowej metoda najmniejszych kwadratow.
+
+W wynikach zapisywane sa sumy kontrolne, parametry dopasowania oraz bledy wzgledne wzgledem parametrow uzytych przy generowaniu danych.
+
+## Kod
+
+/ KOD z pliku moB02zad10.cs
+
+## Wyniki
+
+/ Wyniki z pliku moB02zad10.txt
+
+## Wykresy
+/ Wykres - punkty danych oraz prosta regresji, jezeli zostal przygotowany recznie
+
+## Wnioski
+
+Dla malego zaburzenia losowego wyznaczone parametry regresji powinny byc bliskie parametrom generatora danych. Wynik potwierdza praktyczne dzialanie metody najmniejszych kwadratow.
+
+
+# Zadanie 11 - optymalizacja perceptronu metoda Cauchiego
+
+## Cel zadania
+
+Celem zadania bylo wyznaczenie parametrow prostego perceptronu metoda najszybszego spadku Cauchiego z bezwladnoscia.
+
+## Opis metody
+
+Perceptron ma wejscie o rozmiarze `n = 3`, wyjscie o rozmiarze `m = 2` i lacznie `8` parametrow. Dane rozwojowe sa generowane z funkcji majacych taka sama postac jak trenowany model, dlatego dobrze przeprowadzona optymalizacja powinna prowadzic do malego kosztu.
+
+Gradient jest liczony numerycznie przy pomocy ilorazu roznicowego, a aktualizacja parametrow uwzglednia tempo uczenia oraz bezwladnosc.
+
+## Kod
+
+/ KOD z pliku moB02zad11.cs
+
+## Wyniki
+
+/ Wyniki z pliku moB02zad11.txt
+
+## Wykresy
+/ Wykres - przebieg kosztu w kolejnych iteracjach, jezeli zostal przygotowany recznie
+
+## Wnioski
+
+Metoda Cauchiego jest stabilna dla malego modelu i malego zbioru danych. Bezwladnosc pomaga w plynniejszym schodzeniu kosztu, a koncowa weryfikacja na wybranej probce pokazuje, czy model dobrze odtwarza wartosci docelowe.
+
+
+# Zadanie 12 - optymalizacja perceptronu metoda SGD
+
+## Cel zadania
+
+Celem zadania bylo zoptymalizowanie tego samego perceptronu metoda stochastycznego spadku gradientu z bezwladnoscia.
+
+## Opis metody
+
+W kazdej iteracji losowana jest jedna para danych, a gradient liczony jest na podstawie pojedynczej straty. Dzieki temu pojedynczy krok jest tanszy niz w metodzie z zadania 11, ale wynik moze bardziej fluktuowac.
+
+Program zapisuje estymowana srednia strate, pelny koszt kontrolny po optymalizacji, parametry perceptronu oraz weryfikacje na jednej probce.
+
+## Kod
+
+/ KOD z pliku moB02zad12.cs
+
+## Wyniki
+
+/ Wyniki z pliku moB02zad12.txt
+
+## Wykresy
+/ Wykres - przebieg straty lub kosztu kontrolnego, jezeli zostal przygotowany recznie
+
+## Wnioski
+
+SGD wykonuje wiecej prostych krokow, ale kazdy z nich jest tanszy, poniewaz nie wymaga liczenia bledu po calym zbiorze. Dla wiekszych zbiorow danych metoda stochastyczna jest zwykle bardziej praktyczna niz pelny spadek gradientu.
+
+
+# Zadanie 13 - optymalizacja aproksymanta gaussowskiego
+
+## Cel zadania
+
+Celem zadania bylo porownanie klasycznej aproksymacji SPH z aproksymantem gaussowskim, ktorego parametry sa dodatkowo optymalizowane.
+
+## Opis metody
+
+Program aproksymuje funkcje `f(x) = sin(x)` na przedziale `<0, pi>`. Dla wezlow siatki budowane sa parametry aproksymanta, a funkcja celu jest srednim bledem kwadratowym na zbiorze danych rozwojowych.
+
+W kolejnych iteracjach liczony jest gradient i hesjan, rozwiazywany jest uklad liniowy dla kierunku zmiany parametrow, a dlugosc kroku dobierana jest metoda bisekcji. Program zapisuje krzywe aproksymacji oraz parametry do plikow otwieralnych w Excelu.
+
+## Kod
+
+/ KOD z pliku moB02zad13.cs
+
+## Wyniki
+
+/ Wyniki z pliku moB02zad13.txt
+
+## Wykresy
+/ Wykres z pliku moB02zad13_krzywe.xls
+
+/ Wykres lub tabela z pliku moB02zad13_parametry.xls
+
+## Wnioski
+
+Klasyczna aproksymacja SPH jest bliska rozwiazaniu optymalnemu, ale optymalizacja parametrow moze poprawic jakosc dopasowania, szczegolnie przy brzegach przedzialu. Porownanie z parametrami SPH pokazuje, jak duze korekty byly potrzebne.
+
+
+# Zadanie 14 - metoda Monte Carlo z wyzarzaniem
+
+## Cel zadania
+
+Celem zadania bylo znalezienie minimum funkcji dwoch zmiennych metoda Monte Carlo z symulowanym wyzarzaniem.
+
+## Opis metody
+
+Minimalizowana jest funkcja:
+
+`f(x,y) = sin(x) + sin(y) + 0.15*cos(3*x - 2*y)`
+
+Zmienne `x` i `y` naleza do przedzialu `<0, 2*pi>`. Program operuje na parametrach `xi1` i `xi2` z przedzialu `<0, 1>`, ktore sa przeliczane na rzeczywiste wspolrzedne. W kolejnych iteracjach wykonywane sa losowe ruchy, a ruchy pogarszajace moga byc zaakceptowane z prawdopodobienstwem zaleznym od temperatury.
+
+Dla kontroli program wykonuje tez geste przeszukanie siatki `801 x 801` i porownuje znaleziony punkt z minimum siatkowym.
+
+## Kod
+
+/ KOD z pliku moB02zad14.cs
+
+## Wyniki
+
+/ Wyniki z pliku moB02zad14.txt
+
+## Wykresy
+/ Wykres - powierzchnia funkcji lub mapa poziomic z zaznaczonym minimum, jezeli zostal przygotowany recznie
+
+## Wnioski
+
+Symulowane wyzarzanie pozwala szukac minimum funkcji nieliniowej bez koniecznosci znajomosci gradientu. Mechanizm temperatury pomaga unikac zbyt szybkiego zatrzymania w minimum lokalnym. Porownanie z gestym przeszukaniem siatki pozwala sprawdzic, czy znaleziony punkt lezy blisko najlepszego rozwiazania referencyjnego.
 
 
 # Podsumowanie
 
-Laboratorium 5 pokazalo praktyczne zastosowanie aproksymacji SPH z jadrem gaussowskim do funkcji `sin(x)` oraz do jej pochodnych. Dla samej funkcji oraz dla pierwszej i drugiej pochodnej najlepsze wyniki uzyskano przy najgestszej siatce 401 wezlow, przy czym dla drugiej pochodnej korzystniejszy okazal sie nieco szerszy nosnik.
+Laboratorium 5 obejmowalo kilka grup metod numerycznych. Zadania 1-4 dotyczyly interpolacji, zadania 5-8 aproksymacji SPH, zadanie 9 symulacji rownania przewodnictwa cieplnego, zadanie 10 regresji liniowej, zadania 11-12 optymalizacji perceptronu, zadanie 13 optymalizacji aproksymanta, a zadanie 14 metody Monte Carlo z wyzarzaniem.
 
-Najwazniejszy wniosek z calego laboratorium jest taki, ze metoda daje bardzo dobre wyniki w srodkowej czesci przedzialu, ale na brzegach pojawiaja sie wyrazne efekty uboczne. Z punktu widzenia obliczen praktycznych oznacza to, ze przy analizie pochodnych nalezy uwzgledniac obcinanie brzegow albo stosowac dodatkowe poprawki brzegowe.
+Najwazniejszy wspolny wniosek jest taki, ze do oceny metod numerycznych nie wystarcza samo uruchomienie programu. Trzeba rowniez analizowac blad, wrazliwosc na parametry oraz zachowanie na brzegach dziedziny. W przygotowanym kodzie dla wiekszosci zadan zapisano nie tylko wynik koncowy, ale tez miary bledu i dane pomocnicze do wykresow, co ulatwia interpretacje rezultatow.

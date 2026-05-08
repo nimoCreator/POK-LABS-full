@@ -10,7 +10,7 @@ internal sealed class MoB02Zad7 : IZadanie
     public void Run(TextWriter writer)
     {
         double a = ReadDouble("Podaj poczatek przedzialu a", 0.0);
-        double b = ReadDouble("Podaj koniec przedzialu b", Math.PI);
+        double b = ReadDouble("Podaj koniec przedzialu b", 10);
         if (b <= a)
         {
             throw new ArgumentOutOfRangeException(nameof(b), "Koniec przedzialu musi byc wiekszy od poczatku.");

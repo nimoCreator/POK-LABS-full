@@ -83,9 +83,9 @@ wplyw mnoznika dyfuzyjnosci q na blad koncowy i stabilnosc:
 | q        |   0.250 |    9.533e-001 |    2.065e-001 |    3.015e-001 |    1.569e-001 | stabilne    |
 | q        |   0.350 |    8.066e-001 |    1.856e-001 |    3.039e-001 |    1.641e-001 | stabilne    |
 
-plik wynikowy podejscia 1 = D:\CS Repos\POK LABS\POK-5\POK_5_results\moB02zad9_podejscie1.xls
-plik wynikowy podejscia 2 = D:\CS Repos\POK LABS\POK-5\POK_5_results\moB02zad9_podejscie2.xls
+plik wynikowy podejscia 1 = C:\repos\POK-LABS-full\POK-5\POK_5_results\moB02zad9_podejscie1.xls
+plik wynikowy podejscia 2 = C:\repos\POK-LABS-full\POK-5\POK_5_results\moB02zad9_podejscie2.xls
 uwaga: pliki .xls sa zapisane jako tekst rozdzielany srednikami i mozna je bezposrednio otworzyc w Excelu.
 ------------------------------------
-rozwiazanie zajelo: 1401.129 ms
+rozwiazanie zajelo: 18081.643 ms
 ====================================

@@ -10,13 +10,13 @@ internal sealed class MoB02Zad4 : IZadanie
     public void Run(TextWriter writer)
     {
         double a = ReadDouble("Podaj poczatek przedzialu a", 0.0);
-        double b = ReadDouble("Podaj koniec przedzialu b", Math.PI);
+        double b = ReadDouble("Podaj koniec przedzialu b", 10);
         if (b <= a)
         {
             throw new ArgumentOutOfRangeException(nameof(b), "Koniec przedzialu musi byc wiekszy od poczatku.");
         }
 
-        int baseOrder = ReadInt("Podaj rzad N z zadania 3", 12);
+        int baseOrder = ReadInt("Podaj rzad N z zadania 3", 20);
         if (baseOrder <= 0)
         {
             throw new ArgumentOutOfRangeException(nameof(baseOrder), "Rzad dyskretyzacji musi byc dodatni.");

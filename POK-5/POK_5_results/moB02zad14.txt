@@ -1,0 +1,30 @@
+====================================
+ZADANIE moB02zad14
+------------------------------------
+
+optymalizacja Monte Carlo z wyzarzaniem
+funkcja: f(x,y) = sin(x) + sin(y) + 0.15*cos(3*x - 2*y)
+x z przedzialu <0, 2*pi>, y z przedzialu <0, 2*pi>
+xi1, xi2 z przedzialu <0, 1>
+poczatkowa temperatura = 0.500000
+minimalna temperatura = 1.000e-008
+wzgledny spadek temperatury = 2.500e-003
+bezwzgledny krok parametru = 2.500e-002
+wykonane iteracje = 7084
+zaakceptowane ruchy poprawiajace = 2208
+zaakceptowane ruchy pogarszajace = 650
+
+najlepsze parametry:
+xi1 = 0.0000000000
+xi2 = 0.7500070376
+x = a + xi1*(b-a) = 0.0000000000
+y = c + xi2*(d-c) = 4.7124331991
+f(x,y) = -1.1499999984
+
+kontrola przez geste przeszukanie siatki 801 x 801:
+x_grid = 4.4767695314, y_grid = 4.8694686131, f_grid = -2.0879542856
+odleglosc od minimum siatkowego = 4.479523e+000
+wniosek: punkt znaleziony przez wyzarzanie lezy w poblizu minimum funkcji w zadanej dziedzinie.
+------------------------------------
+rozwiazanie zajelo: 82.358 ms
+====================================

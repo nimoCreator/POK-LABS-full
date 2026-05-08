@@ -3,9 +3,9 @@ ZADANIE moB02zad6
 ------------------------------------
 aproksymacja gaussowska SPH pierwszej pochodnej funkcji f(x) = sin(x)
 porownywana pochodna dokladna f'(x) = cos(x)
-przedzial = <0.000000, 3.141593>
+przedzial = <0.000000, 10.000000>
 rozmiar N = 101
-krok dyskretyzacji = 0.03141593
+krok dyskretyzacji = 0.10000000
 nosnik h = 0.05000000
 liczba punktow ewaluacji = 501
 obciecie brzegow do badan dodatkowych = 0.15000000
@@ -13,27 +13,27 @@ obciecie brzegow do badan dodatkowych = 0.15000000
 |   i |           x_i |        f'(x_i) |
 +-----+---------------+-----------------+
 |   0 |    0.00000000 |    1.0000000000 |
-|   1 |    0.03141593 |    0.9995065604 |
-|   2 |    0.06283185 |    0.9980267284 |
-|   3 |    0.09424778 |    0.9955619646 |
-|   4 |    0.12566371 |    0.9921147013 |
-|   5 |    0.15707963 |    0.9876883406 |
-|   6 |    0.18849556 |    0.9822872507 |
-|   7 |    0.21991149 |    0.9759167619 |
-|   8 |    0.25132741 |    0.9685831611 |
-|   9 |    0.28274334 |    0.9602936857 |
-|  10 |    0.31415927 |    0.9510565163 |
-|  11 |    0.34557519 |    0.9408807690 |
+|   1 |    0.10000000 |    0.9950041653 |
+|   2 |    0.20000000 |    0.9800665778 |
+|   3 |    0.30000000 |    0.9553364891 |
+|   4 |    0.40000000 |    0.9210609940 |
+|   5 |    0.50000000 |    0.8775825619 |
+|   6 |    0.60000000 |    0.8253356149 |
+|   7 |    0.70000000 |    0.7648421873 |
+|   8 |    0.80000000 |    0.6967067093 |
+|   9 |    0.90000000 |    0.6216099683 |
+|  10 |    1.00000000 |    0.5403023059 |
+|  11 |    1.10000000 |    0.4535961214 |
 
 bledy aproksymacji pochodnej w calym przedziale:
-maksymalny blad bezwzgledny = 5.003124e-001
-RMSE = 5.455091e-002
-punkt maksymalnego bledu x = 0.00000000
+maksymalny blad bezwzgledny = 1.015719e+001
+RMSE = 5.217614e+000
+punkt maksymalnego bledu x = 7.88000000
 
 bledy aproksymacji pochodnej po obcieciu brzegow:
-maksymalny blad bezwzgledny = 6.205304e-004
-RMSE = 4.186376e-004
-punkt maksymalnego bledu x = 2.99079621
+maksymalny blad bezwzgledny = 1.015719e+001
+RMSE = 5.282435e+000
+punkt maksymalnego bledu x = 7.88000000
 
 porownanie miar bledu:
 dla calego przedzialu blad maksymalny jest wiekszy od RMSE
@@ -42,17 +42,17 @@ po obcieciu brzegow blad maksymalny nadal przewaza nad RMSE
 wplyw rozmiaru N oraz nosnika h na blad:
 |   N |          h |      max full |       rmse full |      max trim |       rmse trim |
 +-----+------------+---------------+-----------------+---------------+-----------------+
-|  50 |   0.025000 |    4.336e+001 |      2.184e+001 |    4.336e+001 |      2.238e+001 |
-|  50 |   0.050000 |    5.276e-001 |      2.496e-001 |    4.828e-001 |      2.571e-001 |
-|  50 |   0.075000 |    5.007e-001 |      6.281e-002 |    1.456e-003 |      9.226e-004 |
-| 101 |   0.025000 |    7.356e-001 |      3.888e-001 |    7.356e-001 |      3.964e-001 |
-| 101 |   0.050000 |    5.003e-001 |      5.455e-002 |    6.205e-004 |      4.186e-004 |
-| 101 |   0.075000 |    5.007e-001 |      6.607e-002 |    1.375e-003 |      9.108e-004 |
-| 202 |   0.025000 |    5.001e-001 |      4.211e-002 |    1.586e-004 |      1.078e-004 |
-| 202 |   0.050000 |    5.003e-001 |      5.580e-002 |    6.250e-004 |      4.187e-004 |
-| 202 |   0.075000 |    5.007e-001 |      6.674e-002 |    1.378e-003 |      9.108e-004 |
+|  50 |   0.025000 |    1.561e+002 |      4.982e+001 |    1.561e+002 |      5.007e+001 |
+|  50 |   0.050000 |    3.937e+001 |      1.753e+001 |    3.937e+001 |      1.776e+001 |
+|  50 |   0.075000 |    1.622e+001 |      7.937e+000 |    1.622e+001 |      8.094e+000 |
+| 101 |   0.025000 |    7.612e+001 |      3.446e+001 |    7.612e+001 |      3.469e+001 |
+| 101 |   0.050000 |    1.016e+001 |      5.218e+000 |    1.016e+001 |      5.282e+000 |
+| 101 |   0.075000 |    2.923e+000 |      2.857e-001 |    4.698e-001 |      2.485e-001 |
+| 202 |   0.025000 |    2.088e+001 |      1.021e+001 |    2.088e+001 |      1.026e+001 |
+| 202 |   0.050000 |    5.397e+000 |      2.749e-001 |    1.195e-002 |      5.993e-003 |
+| 202 |   0.075000 |    4.186e+000 |      2.603e-001 |    1.405e-003 |      9.987e-004 |
 
-plik danych do wykresu = D:\CS Repos\POK LABS\POK-5\POK_5_results\moB02zad6_plot.csv
+plik danych do wykresu = C:\repos\POK-LABS-full\POK-5\POK_5_results\moB02zad6_plot.csv
 ------------------------------------
-rozwiazanie zajelo: 39.693 ms
+rozwiazanie zajelo: 5609.622 ms
 ====================================

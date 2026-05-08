@@ -145,7 +145,7 @@ internal sealed class MoB02Zad2 : IZadanie
         for (int j = 0; j < xNodes.Length; j++)
         {
             if (j == basisIndex)
-            {
+            {n
                 continue;
             }
 

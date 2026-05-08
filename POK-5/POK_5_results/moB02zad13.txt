@@ -1,0 +1,30 @@
+====================================
+ZADANIE moB02zad13
+------------------------------------
+iteracja  0: koszt = 3.57469385e-003
+iteracja  1: koszt = 2.01019682e-003
+iteracja  2: koszt = 1.13087812e-003
+iteracja  3: koszt = 6.36262297e-004
+iteracja  4: koszt = 3.58222835e-004
+iteracja  5: koszt = 2.01904943e-004
+iteracja  6: koszt = 1.14067431e-004
+iteracja  7: koszt = 6.47363225e-005
+iteracja  8: koszt = 3.70526215e-005
+iteracja  9: koszt = 2.14680557e-005
+iteracja 10: koszt = 1.26115833e-005
+iteracja 11: koszt = 7.59590675e-006
+
+aproksymacja gaussowska funkcji f(x) = sin(x) na przedziale <0, pi>
+N = 201, liczba danych rozwojowych = 1000
+krok dyskretyzacji = 1.57079633e-002
+nosnik jadra h = 3.14159265e-002
+koszt koncowy = 7.59590675e-006
+maksymalny blad bezwzgledny aproksymanta optymalnego = 1.11923472e-002
+maksymalny blad bezwzgledny aproksymanta SPH = 1.32310235e-002
+maksymalny blad wzgledny parametrow wzgledem 1/2 = 1.00000000e+000
+plik z krzywymi do Excela = C:\repos\POK-LABS-full\POK-5\POK_5_results\moB02zad13_krzywe.xls
+plik z parametrami do Excela = C:\repos\POK-LABS-full\POK-5\POK_5_results\moB02zad13_parametry.xls
+wniosek: SPH jest bardzo blisko optimum, ale optymalizacja zwykle poprawia zachowanie brzegowe.
+------------------------------------
+rozwiazanie zajelo: 93583.401 ms
+====================================

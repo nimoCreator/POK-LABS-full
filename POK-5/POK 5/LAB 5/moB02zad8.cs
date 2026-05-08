@@ -10,14 +10,14 @@ internal sealed class MoB02Zad8 : IZadanie
     public void Run(TextWriter writer)
     {
         double a = ReadDouble("Podaj poczatek przedzialu a", 0.0);
-        double b = ReadDouble("Podaj koniec przedzialu b", Math.PI);
+        double b = ReadDouble("Podaj koniec przedzialu b", 10);
         if (b <= a)
         {
             throw new ArgumentOutOfRangeException(nameof(b), "Koniec przedzialu b musi byc wiekszy od poczatku a.");
         }
 
         double c = ReadDouble("Podaj poczatek drugiego przedzialu c", 0.0);
-        double d = ReadDouble("Podaj koniec drugiego przedzialu d", Math.PI);
+        double d = ReadDouble("Podaj koniec drugiego przedzialu d", 10);
         if (d <= c)
         {
             throw new ArgumentOutOfRangeException(nameof(d), "Przyjalem standardowy warunek d > c dla drugiego przedzialu.");

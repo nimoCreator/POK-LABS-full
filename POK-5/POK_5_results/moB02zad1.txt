@@ -42,5 +42,5 @@ sprawdzenie rownosci interpolacyjnych S(x_i) = y_i:
 maksymalny blad interpolacji = 3.663736e-015
 asercje zostaly spelnione
 ------------------------------------
-rozwiazanie zajelo: 18.788 ms
+rozwiazanie zajelo: 47.156 ms
 ====================================

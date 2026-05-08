@@ -1,0 +1,41 @@
+====================================
+ZADANIE moB02zad11
+------------------------------------
+
+optymalizacja perceptronu metoda najszybszego spadku Cauchiego z bezwladnoscia
+wejscie ma rozmiar n = 3, wyjscie ma rozmiar m = 2
+liczba parametrow r = 8: bias i 3 wagi dla kazdego z 2 neuronow
+zbior rozwojowy: 1000 par danych
+liczba iteracji maksymalna = 5000
+tempo uczenia = 0.180000
+bezwladnosc = 0.820000
+krok ilorazu roznicowego h = 1.000e-004
+minimalny koszt = 1.000e-008
+czas obliczen = 205.202 ms
+wykonane iteracje = 89
+koszt koncowy = 9.99109397e-009
+
+optymalne parametry perceptronu:
+p[0] =   0.2000352468
+p[1] =   0.8003188783
+p[2] =  -0.4001859082
+p[3] =   0.3000912977
+p[4] =  -0.0999977627
+p[5] =  -0.5000872149
+p[6] =   0.7001058107
+p[7] =   0.6000980113
+
+weryfikacja dla jednej pary ze zbioru rozwojowego:
+x = [0.48499755, 0.28101912, 0.59563593]
+| skladowa |      y docelowe |      eta modelu | blad wzgledny |
++----------+-----------------+-----------------+---------------+
+|        0 |      0.57454497 |      0.57467360 |   2.2389e-004 |
+|        1 |      0.20849379 |      0.20853975 |   2.2045e-004 |
+
+funkcje docelowe uzyte do generacji danych:
+y1 = tanh(0.20 + 0.80*x1 - 0.40*x2 + 0.30*x3)
+y2 = tanh(-0.10 - 0.50*x1 + 0.70*x2 + 0.60*x3)
+Poniewaz generator danych ma taka sama postac jak trenowany perceptron, koszt powinien zejsc bardzo nisko.
+------------------------------------
+rozwiazanie zajelo: 215.257 ms
+====================================

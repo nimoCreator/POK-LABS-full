@@ -1,0 +1,50 @@
+====================================
+ZADANIE moB02zad12
+------------------------------------
+iteracja   5000: strata srednia = 6.043891e-004, koszt pelny kontrolny = 2.999856e-018
+iteracja  10000: strata srednia = 3.021945e-004, koszt pelny kontrolny = 2.786401e-018
+iteracja  15000: strata srednia = 2.014630e-004, koszt pelny kontrolny = 3.724791e-018
+iteracja  20000: strata srednia = 1.510973e-004, koszt pelny kontrolny = 3.042615e-018
+iteracja  25000: strata srednia = 1.208778e-004, koszt pelny kontrolny = 2.357446e-018
+iteracja  30000: strata srednia = 1.007315e-004, koszt pelny kontrolny = 2.718691e-018
+iteracja  35000: strata srednia = 8.634130e-005, koszt pelny kontrolny = 2.562306e-018
+iteracja  40000: strata srednia = 7.554863e-005, koszt pelny kontrolny = 2.306629e-018
+iteracja  45000: strata srednia = 6.715434e-005, koszt pelny kontrolny = 3.060516e-018
+iteracja  50000: strata srednia = 6.043891e-005, koszt pelny kontrolny = 2.717080e-018
+
+optymalizacja perceptronu metoda stochastycznego spadku gradientu z bezwladnoscia
+w kazdym kroku losowana jest jedna para danych, a gradient liczony jest z pojedynczej straty
+zbior rozwojowy: 1000 par danych
+liczba iteracji maksymalna = 50000
+tempo uczenia = 0.060000
+bezwladnosc = 0.800000
+krok ilorazu roznicowego h = 1.000e-004
+minimalna estymacja kosztu = 1.000e-005
+czas obliczen = 301.995 ms
+wykonane iteracje = 50000
+srednia strata jako estymacja kosztu = 6.04389078e-005
+pelny koszt policzony kontrolnie po optymalizacji = 2.71707985e-018
+
+optymalne parametry perceptronu:
+p[0] =   0.2000000011
+p[1] =   0.8000000040
+p[2] =  -0.4000000021
+p[3] =   0.3000000019
+p[4] =  -0.1000000003
+p[5] =  -0.5000000022
+p[6] =   0.7000000036
+p[7] =   0.6000000026
+
+weryfikacja dla jednej pary ze zbioru rozwojowego:
+x = [0.48499755, 0.28101912, 0.59563593]
+| skladowa |      y docelowe |      eta modelu | blad wzgledny |
++----------+-----------------+-----------------+---------------+
+|        0 |      0.57454497 |      0.57454497 |   4.2142e-009 |
+|        1 |      0.20849379 |      0.20849379 |   5.2349e-009 |
+
+porownanie z zadaniem 11:
+SGD wykonuje wiecej krokow, ale pojedynczy krok jest tanszy, bo nie liczy kosztu po calym zbiorze danych.
+Dla malego zbioru metoda z zadania 11 moze byc stabilniejsza, a dla duzego zbioru SGD zwykle jest szybsze czasowo.
+------------------------------------
+rozwiazanie zajelo: 371.629 ms
+====================================
