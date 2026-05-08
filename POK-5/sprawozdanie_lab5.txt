@@ -1,0 +1,177 @@
+Katowice 2026-05-08
+
+
+Programowanie obliczen komputerowych
+Laboratorium 5
+
+
+Sebastian Legierski 301954
+Informatyka Przemyslowa, Stopien II, Semestr 2
+Wydzial Inzynierii Materialowej i Cyfryzacji Przemyslu, Politechnika Slaska
+
+
+# Wprowadzenie
+
+W przekazanych materialach do laboratorium 5 znajdowaly sie gotowe pliki startowe `moB02cw1.cs`, `moB02cw2.cs`, `moB02cw3.cs` oraz biblioteka `moB02_fappr1d.cs`. Na ich podstawie przygotowano komplet rozwiazan dla czesci aproksymacyjnej, czyli zadan `moB02zad5`, `moB02zad6` oraz `moB02zad7`.
+
+Wszystkie programy zostaly zebrane w projekcie C# znajdujacym sie w katalogu `POK-5/POK 5`. Aproksymacja jest wykonywana metoda SPH z jadrem gaussowskim dla funkcji:
+
+f(x) = sin(x),  x z przedzialu [0, pi]
+
+W zadaniach badano kolejno:
+1. aproksymacje samej funkcji,
+2. aproksymacje pierwszej pochodnej,
+3. aproksymacje drugiej pochodnej.
+
+Dla kazdego zadania program porownuje kilka gestosci siatki i kilka wartosci nosnika `h`, oblicza maksymalny blad bezwzgledny oraz blad sredniokwadratowy `RMSE`, a dodatkowo zapisuje dane do wykresu do pliku CSV. Oprocz bledu w pelnym przedziale obliczany jest tez blad po obcieciu brzegow, bo w metodzie SPH to wlasnie na krancach dziedziny wystepuja najwieksze znieksztalcenia.
+
+
+# Zadanie moB02zad5
+
+## Tresc zadania
+
+Nalezy wykonac metoda SPH aproksymacje gaussowska funkcji `f(x)` oraz zapisac wyniki ewaluacji do pliku, a nastepnie zbadac blad aproksymacji i wplyw rozmiaru siatki oraz nosnika.
+
+## Analiza polecenia
+
+W zadaniu przyjeto funkcje `f(x) = sin(x)`. Dla kilku konfiguracji liczby wezlow oraz stosunku `h/krok` program buduje aproksymant, sprawdza jego zgodnosc z funkcja dokladna na 501 punktach kontrolnych i wybiera konfiguracje o najmniejszym bledzie `RMSE` w obcietym przedziale.
+
+## Kod
+
+Kluczowe wywolanie dla wartosci funkcji:
+
+protected override double Approximate(Gauss1D approximator, double x)
+{
+    return approximator.Value(x);
+}
+
+Najlepsza konfiguracja jest wybierana automatycznie:
+
+StudyResult best = results
+    .OrderBy(r => r.TrimmedRange.RootMeanSquareError)
+    .ThenBy(r => r.TrimmedRange.MaxAbsoluteError)
+    .First();
+
+## Wynik
+
+Najlepsza konfiguracja:
+
+- liczba wezlow = 401
+- `h/krok = 1.50`
+- `krok = 0.007854`
+- `h = 0.011781`
+- obciecie brzegow = `0.035343`
+
+Bledy dla najlepszej konfiguracji:
+
+- pelny przedzial: `max = 3.064771e-003`, `rmse = 2.034961e-004`
+- przedzial obciety: `max = 3.469677e-005`, `rmse = 2.480885e-005`
+
+Dane do wykresu zostaly zapisane w pliku:
+
+`POK-5/POK_results/moB02zad5_plot.csv`
+
+## Wnioski
+
+Aproksymacja wartosci funkcji `sin(x)` okazala sie bardzo dokladna. Po obcieciu brzegow blad spada do poziomu `10^-5`, co pokazuje, ze glownym zrodlem niedokladnosci sa efekty brzegowe, a nie sama metoda aproksymacji.
+
+
+# Zadanie moB02zad6
+
+## Tresc zadania
+
+Nalezy analogicznie wykonac aproksymacje gaussowska pierwszej pochodnej funkcji oraz zbadac blad i wplyw parametrow numerycznych.
+
+## Analiza polecenia
+
+Program nadal aproksymuje funkcje `sin(x)`, ale porownanie wykonuje z pochodna dokladna:
+
+f'(x) = cos(x)
+
+Wartosci pochodnej aproksymanta sa liczone wzorem wbudowanym w klase `Approximator1D`, a nastepnie zestawiane z wartosciami dokladnymi.
+
+## Kod
+
+Najwazniejszy fragment dla pierwszej pochodnej:
+
+protected override double Approximate(Gauss1D approximator, double x)
+{
+    return approximator.Derivative(x);
+}
+
+## Wynik
+
+Najlepsza konfiguracja:
+
+- liczba wezlow = 401
+- `h/krok = 1.50`
+- `krok = 0.007854`
+- `h = 0.011781`
+- obciecie brzegow = `0.035343`
+
+Bledy dla najlepszej konfiguracji:
+
+- pelny przedzial: `max = 5.000174e-001`, `rmse = 3.433543e-002`
+- przedzial obciety: `max = 3.529394e-005`, `rmse = 2.426169e-005`
+
+Dane do wykresu zostaly zapisane w pliku:
+
+`POK-5/POK_results/moB02zad6_plot.csv`
+
+## Wnioski
+
+W przypadku pierwszej pochodnej sytuacja jest bardziej wymagajaca niz dla samej funkcji. W srodku przedzialu wyniki sa bardzo dobre, ale na brzegach pojawia sie duzy blad, przez co metryki dla calego przedzialu wygladaja znacznie gorzej. Po odrzuceniu fragmentow przybrzegowych dokladnosc znow schodzi do poziomu `10^-5`.
+
+
+# Zadanie moB02zad7
+
+## Tresc zadania
+
+Nalezy wykonac aproksymacje gaussowska drugiej pochodnej funkcji, zapisac wyniki do pliku oraz porownac jakosc rozwiazan dla roznych wartosci gestosci siatki i nosnika.
+
+## Analiza polecenia
+
+Druga pochodna badanej funkcji ma postac:
+
+f''(x) = -sin(x)
+
+Jest to najtrudniejsza z trzech czesci, poniewaz druga pochodna wzmacnia zarowno lokalne bledy przyblizenia, jak i problemy na krawedziach przedzialu. Z tego powodu program ponownie raportuje bledy zarowno dla calej dziedziny, jak i dla przedzialu obcietego.
+
+## Kod
+
+Rdzen obliczen:
+
+protected override double Approximate(Gauss1D approximator, double x)
+{
+    return approximator.SecondDerivative(x);
+}
+
+## Wynik
+
+Najlepsza konfiguracja:
+
+- liczba wezlow = 401
+- `h/krok = 2.00`
+- `krok = 0.007854`
+- `h = 0.015708`
+- obciecie brzegow = `0.047124`
+
+Bledy dla najlepszej konfiguracji:
+
+- pelny przedzial: `max = 3.753454e+001`, `rmse = 3.352661e+000`
+- przedzial obciety: `max = 5.676744e-004`, `rmse = 5.739947e-005`
+
+Dane do wykresu zostaly zapisane w pliku:
+
+`POK-5/POK_results/moB02zad7_plot.csv`
+
+## Wnioski
+
+Druga pochodna jest najbardziej wrazliwa na zaburzenia brzegowe. W pelnym przedziale blad jest bardzo duzy, ale po obcieciu brzegow wynik staje sie znow stabilny i dokladny. Oznacza to, ze sam rdzen metody dobrze odtwarza druga pochodna, natomiast praktyczne uzycie wymaga ostroznej interpretacji danych na koncach dziedziny.
+
+
+# Podsumowanie
+
+Laboratorium 5 pokazalo praktyczne zastosowanie aproksymacji SPH z jadrem gaussowskim do funkcji `sin(x)` oraz do jej pochodnych. Dla samej funkcji oraz dla pierwszej i drugiej pochodnej najlepsze wyniki uzyskano przy najgestszej siatce 401 wezlow, przy czym dla drugiej pochodnej korzystniejszy okazal sie nieco szerszy nosnik.
+
+Najwazniejszy wniosek z calego laboratorium jest taki, ze metoda daje bardzo dobre wyniki w srodkowej czesci przedzialu, ale na brzegach pojawiaja sie wyrazne efekty uboczne. Z punktu widzenia obliczen praktycznych oznacza to, ze przy analizie pochodnych nalezy uwzgledniac obcinanie brzegow albo stosowac dodatkowe poprawki brzegowe.

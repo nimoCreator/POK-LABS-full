@@ -1,0 +1,57 @@
+====================================
+ZADANIE moB02zad5
+------------------------------------
+aproksymacja gaussowska SPH funkcji f(x) = sin(x)
+przedzial = <0.000000, 3.141593>
+rozmiar N = 101
+krok dyskretyzacji = 0.03141593
+nosnik h = 0.05000000
+liczba punktow ewaluacji = 501
+obciecie brzegow do badan dodatkowych = 0.15000000
+
+|   i |           x_i |         f(x_i) |
++-----+---------------+----------------+
+|   0 |    0.00000000 |   0.0000000000 |
+|   1 |    0.03141593 |   0.0314107591 |
+|   2 |    0.06283185 |   0.0627905195 |
+|   3 |    0.09424778 |   0.0941083133 |
+|   4 |    0.12566371 |   0.1253332336 |
+|   5 |    0.15707963 |   0.1564344650 |
+|   6 |    0.18849556 |   0.1873813146 |
+|   7 |    0.21991149 |   0.2181432414 |
+|   8 |    0.25132741 |   0.2486898872 |
+|   9 |    0.28274334 |   0.2789911060 |
+|  10 |    0.31415927 |   0.3090169944 |
+|  11 |    0.34557519 |   0.3387379202 |
+
+bledy aproksymacji w calym przedziale:
+maksymalny blad bezwzgledny = 1.313012e-002
+RMSE = 1.345960e-003
+punkt maksymalnego bledu x = 0.00000000
+
+bledy aproksymacji po obcieciu brzegow:
+maksymalny blad bezwzgledny = 6.248047e-004
+RMSE = 4.638416e-004
+punkt maksymalnego bledu x = 1.57079633
+
+porownanie miar bledu:
+dla calego przedzialu blad maksymalny jest wiekszy od RMSE
+po obcieciu brzegow blad maksymalny nadal przewaza nad RMSE
+
+wplyw rozmiaru N oraz nosnika h na blad:
+|   N |          h |      max full |       rmse full |      max trim |       rmse trim |
++-----+------------+---------------+-----------------+---------------+-----------------+
+|  50 |   0.025000 |    4.498e-001 |      2.230e-001 |    4.498e-001 |      2.285e-001 |
+|  50 |   0.050000 |    9.082e-003 |      2.655e-003 |    5.604e-003 |      2.671e-003 |
+|  50 |   0.075000 |    1.833e-002 |      2.253e-003 |    1.408e-003 |      1.070e-003 |
+| 101 |   0.025000 |    4.671e-003 |      1.967e-003 |    3.712e-003 |      1.987e-003 |
+| 101 |   0.050000 |    1.313e-002 |      1.346e-003 |    6.248e-004 |      4.638e-004 |
+| 101 |   0.075000 |    2.051e-002 |      2.568e-003 |    1.405e-003 |      1.070e-003 |
+| 202 |   0.025000 |    6.572e-003 |      5.182e-004 |    1.562e-004 |      1.131e-004 |
+| 202 |   0.050000 |    1.387e-002 |      1.440e-003 |    6.248e-004 |      4.638e-004 |
+| 202 |   0.075000 |    2.098e-002 |      2.641e-003 |    1.405e-003 |      1.070e-003 |
+
+plik danych do wykresu = D:\CS Repos\POK LABS\POK-5\POK_5_results\moB02zad5_plot.csv
+------------------------------------
+rozwiazanie zajelo: 44.728 ms
+====================================

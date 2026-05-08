@@ -1,0 +1,58 @@
+====================================
+ZADANIE moB02zad7
+------------------------------------
+aproksymacja gaussowska SPH drugiej pochodnej funkcji f(x) = sin(x)
+porownywana pochodna dokladna f''(x) = -sin(x)
+przedzial = <0.000000, 3.141593>
+rozmiar N = 101
+krok dyskretyzacji = 0.03141593
+nosnik h = 0.05000000
+liczba punktow ewaluacji = 501
+obciecie brzegow do badan dodatkowych = 0.15000000
+
+|   i |           x_i |       f''(x_i) |
++-----+---------------+-----------------+
+|   0 |    0.00000000 |   -0.0000000000 |
+|   1 |    0.03141593 |   -0.0314107591 |
+|   2 |    0.06283185 |   -0.0627905195 |
+|   3 |    0.09424778 |   -0.0941083133 |
+|   4 |    0.12566371 |   -0.1253332336 |
+|   5 |    0.15707963 |   -0.1564344650 |
+|   6 |    0.18849556 |   -0.1873813146 |
+|   7 |    0.21991149 |   -0.2181432414 |
+|   8 |    0.25132741 |   -0.2486898872 |
+|   9 |    0.28274334 |   -0.2789911060 |
+|  10 |    0.31415927 |   -0.3090169944 |
+|  11 |    0.34557519 |   -0.3387379202 |
+
+bledy aproksymacji drugiej pochodnej w calym przedziale:
+maksymalny blad bezwzgledny = 1.211739e+001
+RMSE = 1.735386e+000
+punkt maksymalnego bledu x = 3.14159265
+
+bledy aproksymacji drugiej pochodnej po obcieciu brzegow:
+maksymalny blad bezwzgledny = 6.256776e-004
+RMSE = 4.653633e-004
+punkt maksymalnego bledu x = 1.55822996
+
+porownanie miar bledu:
+dla calego przedzialu blad maksymalny jest wiekszy od RMSE
+po obcieciu brzegow blad maksymalny nadal przewaza nad RMSE
+
+wplyw rozmiaru N oraz nosnika h na blad:
+|   N |          h |      max full |       rmse full |      max trim |       rmse trim |
++-----+------------+---------------+-----------------+---------------+-----------------+
+|  50 |   0.025000 |    4.460e+003 |      2.141e+003 |    4.460e+003 |      2.194e+003 |
+|  50 |   0.050000 |    4.771e+001 |      2.406e+001 |    4.771e+001 |      2.515e+001 |
+|  50 |   0.075000 |    8.719e+000 |      1.448e+000 |    2.841e-002 |      1.490e-002 |
+| 101 |   0.025000 |    1.546e+002 |      7.741e+001 |    1.546e+002 |      7.925e+001 |
+| 101 |   0.050000 |    1.212e+001 |      1.735e+000 |    6.257e-004 |      4.654e-004 |
+| 101 |   0.075000 |    7.734e+000 |      1.362e+000 |    1.405e-003 |      1.073e-003 |
+| 202 |   0.025000 |    2.424e+001 |      2.571e+000 |    8.132e-004 |      1.252e-004 |
+| 202 |   0.050000 |    1.146e+001 |      1.684e+000 |    1.047e-003 |      4.708e-004 |
+| 202 |   0.075000 |    7.557e+000 |      1.346e+000 |    1.405e-003 |      1.075e-003 |
+
+plik danych do wykresu = D:\CS Repos\POK LABS\POK-5\POK_5_results\moB02zad7_plot.csv
+------------------------------------
+rozwiazanie zajelo: 38.881 ms
+====================================

@@ -1,0 +1,266 @@
+Katowice 2026-05-08
+
+
+Programowanie obliczen komputerowych
+Laboratorium 6
+
+
+Sebastian Legierski 301954
+Informatyka Przemyslowa, Stopien II, Semestr 2
+Wydzial Inzynierii Materialowej i Cyfryzacji Przemyslu, Politechnika Slaska
+
+
+# Wprowadzenie
+
+Materialy do laboratorium 6 obejmuja dwie glowne czesci. Pierwsza to podstawy modelowania komputerowego (`pmk.doc`) z przykladem ukladu RC oraz prostego wahadla. Druga to model dynamiczny obwodu `RLC` opisany w pliku `mdk.doc`.
+
+W katalogu `POK-6/POK 6` przygotowano trzy glowne elementy rozwiazania:
+
+1. `pmkzad01.cpp` - model ukladu RC z rozwiazaniem analitycznym, metoda Eulera, punktu srodkowego i Rungego-Kutty,
+2. `pmkzad02.cpp` - uzupelniony i uporzadkowany model prostego wahadla,
+3. `MDK/Program.cs` - program C# realizujacy model obwodu `RLC` z metoda Rungego-Kutty.
+
+Dodatkowo w repozytorium znajduje sie pomocniczy skrypt `lab6_results.py`, ktory wygenerowal przykladowe pliki `csv` dla czesci `PMK`, poniewaz w srodowisku roboczym nie bylo dostepnego kompilatora `C++` w zmiennej `PATH`. Sama logika numeryczna w skrypcie odpowiada zapisanym plikom `pmkzad01.cpp` i `pmkzad02.cpp`.
+
+Gotowe dane do wykresow znajduja sie w katalogu:
+
+`POK-6/POK_results`
+
+
+# Zadanie pmkzad01
+
+## Tresc zadania
+
+Nalezy uruchomic program modelujacy uklad elektryczny `RC` i narysowac wykres funkcji ladunku od czasu dla rozwiazania analitycznego oraz rozwiazan numerycznych.
+
+## Analiza polecenia
+
+Badane rownanie ma postac:
+
+dq/dt = -q
+
+przy warunku poczatkowym `q(0) = 1`. Rozwiazanie analityczne jest rowne:
+
+q(t) = exp(-t)
+
+W programie porownano trzy schematy numeryczne:
+
+1. metode Eulera,
+2. metode punktu srodkowego,
+3. metode Rungego-Kutty czwartego rzedu.
+
+Do przykladowego porownania przyjeto:
+
+- `dt = 0.1`
+- `t_k = 4.0`
+
+## Kod
+
+Najwazniejszy fragment odpowiedzialny za krok Rungego-Kutty:
+
+real RCRungeKuttaStep(real q, real delt)
+{
+    real k1 = -delt * q;
+    real k2 = -delt * (q + 0.5L * k1);
+    real k3 = -delt * (q + 0.5L * k2);
+    real k4 = -delt * (q + k3);
+    return q + (k1 + 2.0L * k2 + 2.0L * k3 + k4) / 6.0L;
+}
+
+## Wynik
+
+Plik wynikowy:
+
+`POK-6/POK_results/pmkzad01.csv`
+
+Poczatkowe wiersze danych:
+
+- `t = 0.0` -> analityczne `1.0000000000`, Euler `1.0000000000`, Midpoint `1.0000000000`, RK4 `1.0000000000`
+- `t = 0.1` -> analityczne `0.9048374180`, Euler `0.9000000000`, Midpoint `0.9050000000`, RK4 `0.9048375000`
+- `t = 0.2` -> analityczne `0.8187307531`, Euler `0.8100000000`, Midpoint `0.8190250000`, RK4 `0.8187309014`
+
+Koncowy punkt porownania dla `t = 4.0`:
+
+- analityczne `0.0183156389`
+- Euler `0.0147808829`
+- Midpoint `0.0184477400`
+- RK4 `0.0183157053`
+
+Maksymalne bledy bezwzgledne w calym przebiegu:
+
+- Euler `0.019201`
+- Midpoint `0.000662`
+- Runge-Kutta `~ 0.000000`
+
+## Wnioski
+
+W modelu `RC` metoda Eulera daje najwieksze odchylenia i najszybciej zaniza wartosc ladunku. Metoda punktu srodkowego jest wyraznie dokladniejsza, a metoda Rungego-Kutty praktycznie pokrywa sie z rozwiazaniem analitycznym dla przyjetego kroku czasu.
+
+
+# Zadanie pmkzad02
+
+## Tresc zadania
+
+Nalezy uzupelnic model prostego wahadla, uruchomic program i porownac przebieg kata wychylenia z przyblizonym rozwiazaniem analitycznym oraz z metodami numerycznymi.
+
+## Analiza polecenia
+
+Model wahadla opisuje uklad dwoch rownan pierwszego rzedu:
+
+- `d(fi)/dt = om`
+- `d(om)/dt = -(g/l) * sin(fi)`
+
+W odroznieniu od surowego pliku cwiczeniowego rozwiazanie zostalo uporzadkowane tak, aby wszystkie trzy metody aktualizowaly jednoczesnie kat i predkosc katowa. Dla porownania z rozwiazaniem analitycznym przyjeto maly kat poczatkowy, bo wzor:
+
+fi(t) = fi0 * cos(t * sqrt(g/l))
+
+jest przyblizeniem poprawnym glownie dla niewielkich wychylen.
+
+W przykladowych wynikach uzyto parametrow:
+
+- `l = 1.2 m`
+- `fi0 = 5 deg`
+- `dt = 0.02 T`
+- `t_k = 3 T`
+
+gdzie `T = 2*pi*sqrt(l/g) = 2.197536 s`.
+
+## Kod
+
+Najwazniejszy fragment dla kroku Rungego-Kutty:
+
+PendulumState RungeKuttaStep(const PendulumState& state, real delt, real g_div_l)
+{
+    PendulumState k1 = Derivatives(state, g_div_l);
+    PendulumState s2 { state.fi + 0.5L * delt * k1.fi, state.om + 0.5L * delt * k1.om };
+    PendulumState k2 = Derivatives(s2, g_div_l);
+    PendulumState s3 { state.fi + 0.5L * delt * k2.fi, state.om + 0.5L * delt * k2.om };
+    PendulumState k3 = Derivatives(s3, g_div_l);
+    PendulumState s4 { state.fi + delt * k3.fi, state.om + delt * k3.om };
+    PendulumState k4 = Derivatives(s4, g_div_l);
+
+    return
+    {
+        state.fi + delt * (k1.fi + 2.0L * k2.fi + 2.0L * k3.fi + k4.fi) / 6.0L,
+        state.om + delt * (k1.om + 2.0L * k2.om + 2.0L * k3.om + k4.om) / 6.0L
+    };
+}
+
+## Wynik
+
+Plik wynikowy:
+
+`POK-6/POK_results/pmkzad02.csv`
+
+Poczatkowe punkty:
+
+- `t = 0.000000` -> analityczne `5.0000000000`, Euler `5.0000000000`, Midpoint `5.0000000000`, RK4 `5.0000000000`
+- `t = 0.043951` -> analityczne `4.9605735066`, Euler `5.0000000000`, Midpoint `4.9605716709`, RK4 `4.9606233598`
+- `t = 0.087901` -> analityczne `4.8429158056`, Euler `4.9211433418`, Midpoint `4.8425968218`, RK4 `4.8431123794`
+
+Koncowy punkt porownania dla `t = 6.592608 s`:
+
+- analityczne `5.0000000000 deg`
+- Euler `16.0085502965 deg`
+- Midpoint `5.0193170754 deg`
+- RK4 `4.9997766910 deg`
+
+Maksymalne bledy bezwzgledne:
+
+- Euler `11.008550 deg`
+- Midpoint `0.187556 deg`
+- Runge-Kutta `0.041333 deg`
+
+## Wnioski
+
+Przy malym wychyleniu poczatkowym metoda Rungego-Kutty najwierniej odtwarza rozwiazanie analityczne. Metoda punktu srodkowego rowniez daje bardzo dobry wynik, natomiast metoda Eulera akumuluje blad i po kilku okresach wyraznie zawyza amplitude.
+
+
+# Zadanie mdkzad01
+
+## Tresc zadania
+
+Nalezy zaimplementowac model obwodu `RLC` z wykorzystaniem metody Rungego-Kutty i otrzymac przebiegi dla kilku zestawow parametrow oraz kilku sygnalow wejsciowych.
+
+## Analiza polecenia
+
+W programie jako zmienne stanu przyjeto:
+
+- prad `i(t)` w obwodzie,
+- napiecie `uC(t)` na kondensatorze.
+
+Otrzymany uklad rownan ma postac:
+
+- `di/dt = (u_we(t) - R*i - uC) / L`
+- `duC/dt = i / C`
+
+Program w katalogu `POK-6/POK 6/MDK` realizuje schemat Rungego-Kutty czwartego rzedu i generuje trzy przebiegi:
+
+1. sygnal sinusoidalny,
+2. skok napiecia stalego,
+3. impuls prostokatny.
+
+## Kod
+
+Najwazniejszy fragment wyznaczajacy pochodne stanu:
+
+private static RlcState Derivative(RlcState state, double timeSeconds, CircuitParameters parameters, InputSignal signal)
+{
+    double sourceVoltage = signal(timeSeconds);
+    double di = (sourceVoltage - parameters.ResistanceOhms * state.Current - state.CapacitorVoltage)
+        / parameters.InductanceHenries;
+    double du = state.Current / parameters.CapacitanceFarads;
+    return new RlcState(di, du);
+}
+
+## Wynik
+
+Pliki wynikowe:
+
+- `POK-6/POK_results/mdkzad01_sinus.csv`
+- `POK-6/POK_results/mdkzad01_skok.csv`
+- `POK-6/POK_results/mdkzad01_impuls.csv`
+
+Przypadek 1: sygnal sinusoidalny
+
+- `R = 80 ohm`
+- `L = 50 mH`
+- `C = 100 uF`
+- czas symulacji `200 ms`
+- krok `0.050 ms`
+- maksymalny prad `0.130320 A`
+- maksymalne napiecie kondensatora `5.054431 V`
+- stan koncowy: `i = 0.026093 A`, `uC = -3.810994 V`
+
+Przypadek 2: skok napiecia stalego
+
+- `R = 120 ohm`
+- `L = 60 mH`
+- `C = 150 uF`
+- czas symulacji `120 ms`
+- krok `0.050 ms`
+- maksymalny prad `0.092502 A`
+- maksymalne napiecie kondensatora `11.987069 V`
+- stan koncowy: `i = 0.000111 A`, `uC = 11.987106 V`
+
+Przypadek 3: impuls prostokatny
+
+- `R = 60 ohm`
+- `L = 40 mH`
+- `C = 68 uF`
+- czas symulacji `80 ms`
+- krok `0.020 ms`
+- maksymalny prad `0.104686 A`
+- maksymalne napiecie kondensatora `7.977458 V`
+- stan koncowy: `i ~ 0 A`, `uC ~ 0 V`
+
+## Wnioski
+
+Model `RLC` poprawnie odtwarza trzy rozne odpowiedzi ukladu. Dla skoku stalego kondensator laduje sie do wartosci bliskiej napieciu zasilania i prad zanika. Dla impulsu uklad po czasie wraca praktycznie do stanu spoczynkowego. Dla wymuszenia sinusoidalnego utrzymuje sie przebieg oscylacyjny z przesunieciem fazowym i niezerowym napieciem na kondensatorze.
+
+
+# Podsumowanie
+
+Laboratorium 6 laczylo klasyczne modele fizyczne z implementacja metod numerycznych. W czesci `PMK` najlepiej wypadla metoda Rungego-Kutty, zarowno dla prostego ukladu `RC`, jak i dla modelu wahadla. W czesci `MDK` udalo sie przygotowac w pelni uruchamialny model `RLC` z kilkoma wariantami wymuszenia.
+
+Najwazniejszy wniosek z calego laboratorium jest taki, ze wraz ze wzrostem zlozonosci modelu rosnie znaczenie poprawnego doboru metody numerycznej i kroku czasu. Proste metody, takie jak Euler, wystarczaja do orientacyjnego przebiegu, ale dopiero metody wyzszego rzedu pozwalaja zachowac wysoka zgodnosc z rozwiazaniem wzorcowym lub fizycznie oczekiwanym zachowaniem ukladu.

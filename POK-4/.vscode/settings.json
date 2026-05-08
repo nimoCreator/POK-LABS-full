@@ -1,0 +1,8 @@
+{
+  "python.defaultInterpreterPath": "${env:LOCALAPPDATA}\\Python\\bin\\sage-python.cmd",
+  "python.terminal.activateEnvironment": false,
+  "python.analysis.extraPaths": [
+    "${env:LOCALAPPDATA}\\SageMath 9.3\\runtime\\opt\\sagemath-9.3\\local\\lib\\python3.7\\site-packages"
+  ],
+  "jupyter.notebookFileRoot": "${workspaceFolder}"
+}
