@@ -1,57 +1,57 @@
-====================================
-ZADANIE moB02zad5
-------------------------------------
-aproksymacja gaussowska SPH funkcji f(x) = sin(x)
-przedzial = <0.000000, 10.000000>
-rozmiar N = 101
-krok dyskretyzacji = 0.10000000
-nosnik h = 0.05000000
-liczba punktow ewaluacji = 501
-obciecie brzegow do badan dodatkowych = 0.15000000
+    ====================================
+    ZADANIE moB02zad5
+    ------------------------------------
+    aproksymacja gaussowska SPH funkcji f(x) = sin(x)
+    przedzial = <0.000000, 10.000000>
+    rozmiar N = 101
+    krok dyskretyzacji = 0.10000000
+    nosnik h = 0.05000000
+    liczba punktow ewaluacji = 501
+    obciecie brzegow do badan dodatkowych = 0.15000000
 
-|   i |           x_i |         f(x_i) |
-+-----+---------------+----------------+
-|   0 |    0.00000000 |   0.0000000000 |
-|   1 |    0.10000000 |   0.0998334166 |
-|   2 |    0.20000000 |   0.1986693308 |
-|   3 |    0.30000000 |   0.2955202067 |
-|   4 |    0.40000000 |   0.3894183423 |
-|   5 |    0.50000000 |   0.4794255386 |
-|   6 |    0.60000000 |   0.5646424734 |
-|   7 |    0.70000000 |   0.6442176872 |
-|   8 |    0.80000000 |   0.7173560909 |
-|   9 |    0.90000000 |   0.7833269096 |
-|  10 |    1.00000000 |   0.8414709848 |
-|  11 |    1.10000000 |   0.8912073601 |
+    |   i |           x_i |         f(x_i) |
+    +-----+---------------+----------------+
+    |   0 |    0.00000000 |   0.0000000000 |
+    |   1 |    0.10000000 |   0.0998334166 |
+    |   2 |    0.20000000 |   0.1986693308 |
+    |   3 |    0.30000000 |   0.2955202067 |
+    |   4 |    0.40000000 |   0.3894183423 |
+    |   5 |    0.50000000 |   0.4794255386 |
+    |   6 |    0.60000000 |   0.5646424734 |
+    |   7 |    0.70000000 |   0.6442176872 |
+    |   8 |    0.80000000 |   0.7173560909 |
+    |   9 |    0.90000000 |   0.7833269096 |
+    |  10 |    1.00000000 |   0.8414709848 |
+    |  11 |    1.10000000 |   0.8912073601 |
 
-bledy aproksymacji w calym przedziale:
-maksymalny blad bezwzgledny = 1.694939e-001
-RMSE = 8.327341e-002
-punkt maksymalnego bledu x = 4.70000000
+    bledy aproksymacji w calym przedziale:
+    maksymalny blad bezwzgledny = 1.694939e-001
+    RMSE = 8.327341e-002
+    punkt maksymalnego bledu x = 4.70000000
 
-bledy aproksymacji po obcieciu brzegow:
-maksymalny blad bezwzgledny = 1.694939e-001
-RMSE = 8.428295e-002
-punkt maksymalnego bledu x = 4.70000000
+    bledy aproksymacji po obcieciu brzegow:
+    maksymalny blad bezwzgledny = 1.694939e-001
+    RMSE = 8.428295e-002
+    punkt maksymalnego bledu x = 4.70000000
 
-porownanie miar bledu:
-dla calego przedzialu blad maksymalny jest wiekszy od RMSE
-po obcieciu brzegow blad maksymalny nadal przewaza nad RMSE
+    porownanie miar bledu:
+    dla calego przedzialu blad maksymalny jest wiekszy od RMSE
+    po obcieciu brzegow blad maksymalny nadal przewaza nad RMSE
 
-wplyw rozmiaru N oraz nosnika h na blad:
-|   N |          h |      max full |       rmse full |      max trim |       rmse trim |
-+-----+------------+---------------+-----------------+---------------+-----------------+
-|  50 |   0.025000 |    3.581e+000 |      1.039e+000 |    3.581e+000 |      1.043e+000 |
-|  50 |   0.050000 |    1.295e+000 |      5.485e-001 |    1.295e+000 |      5.548e-001 |
-|  50 |   0.075000 |    5.340e-001 |      2.593e-001 |    5.340e-001 |      2.639e-001 |
-| 101 |   0.025000 |    1.257e+000 |      5.344e-001 |    1.257e+000 |      5.371e-001 |
-| 101 |   0.050000 |    1.695e-001 |      8.327e-002 |    1.695e-001 |      8.428e-002 |
-| 101 |   0.075000 |    7.638e-002 |      5.599e-003 |    7.816e-003 |      4.099e-003 |
-| 202 |   0.025000 |    1.649e-001 |      8.088e-002 |    1.649e-001 |      8.139e-002 |
-| 202 |   0.050000 |    1.291e-001 |      6.229e-003 |    7.179e-004 |      4.391e-004 |
-| 202 |   0.075000 |    1.870e-001 |      1.033e-002 |    1.405e-003 |      9.886e-004 |
+    wplyw rozmiaru N oraz nosnika h na blad:
+    |   N |          h |      max full |       rmse full |      max trim |       rmse trim |
+    +-----+------------+---------------+-----------------+---------------+-----------------+
+    |  50 |   0.025000 |    3.581e+000 |      1.039e+000 |    3.581e+000 |      1.043e+000 |
+    |  50 |   0.050000 |    1.295e+000 |      5.485e-001 |    1.295e+000 |      5.548e-001 |
+    |  50 |   0.075000 |    5.340e-001 |      2.593e-001 |    5.340e-001 |      2.639e-001 |
+    | 101 |   0.025000 |    1.257e+000 |      5.344e-001 |    1.257e+000 |      5.371e-001 |
+    | 101 |   0.050000 |    1.695e-001 |      8.327e-002 |    1.695e-001 |      8.428e-002 |
+    | 101 |   0.075000 |    7.638e-002 |      5.599e-003 |    7.816e-003 |      4.099e-003 |
+    | 202 |   0.025000 |    1.649e-001 |      8.088e-002 |    1.649e-001 |      8.139e-002 |
+    | 202 |   0.050000 |    1.291e-001 |      6.229e-003 |    7.179e-004 |      4.391e-004 |
+    | 202 |   0.075000 |    1.870e-001 |      1.033e-002 |    1.405e-003 |      9.886e-004 |
 
-plik danych do wykresu = C:\repos\POK-LABS-full\POK-5\POK_5_results\moB02zad5_plot.csv
-------------------------------------
-rozwiazanie zajelo: 6184.797 ms
-====================================
+    plik danych do wykresu = C:\repos\POK-LABS-full\POK-5\POK_5_results\moB02zad5_plot.csv
+    ------------------------------------
+    rozwiazanie zajelo: 6184.797 ms
+    ====================================

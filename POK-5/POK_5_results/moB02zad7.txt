@@ -1,58 +1,58 @@
-====================================
-ZADANIE moB02zad7
-------------------------------------
-aproksymacja gaussowska SPH drugiej pochodnej funkcji f(x) = sin(x)
-porownywana pochodna dokladna f''(x) = -sin(x)
-przedzial = <0.000000, 10.000000>
-rozmiar N = 101
-krok dyskretyzacji = 0.10000000
-nosnik h = 0.05000000
-liczba punktow ewaluacji = 501
-obciecie brzegow do badan dodatkowych = 0.15000000
+    ====================================
+    ZADANIE moB02zad7
+    ------------------------------------
+    aproksymacja gaussowska SPH drugiej pochodnej funkcji f(x) = sin(x)
+    porownywana pochodna dokladna f''(x) = -sin(x)
+    przedzial = <0.000000, 10.000000>
+    rozmiar N = 101
+    krok dyskretyzacji = 0.10000000
+    nosnik h = 0.05000000
+    liczba punktow ewaluacji = 501
+    obciecie brzegow do badan dodatkowych = 0.15000000
 
-|   i |           x_i |       f''(x_i) |
-+-----+---------------+-----------------+
-|   0 |    0.00000000 |   -0.0000000000 |
-|   1 |    0.10000000 |   -0.0998334166 |
-|   2 |    0.20000000 |   -0.1986693308 |
-|   3 |    0.30000000 |   -0.2955202067 |
-|   4 |    0.40000000 |   -0.3894183423 |
-|   5 |    0.50000000 |   -0.4794255386 |
-|   6 |    0.60000000 |   -0.5646424734 |
-|   7 |    0.70000000 |   -0.6442176872 |
-|   8 |    0.80000000 |   -0.7173560909 |
-|   9 |    0.90000000 |   -0.7833269096 |
-|  10 |    1.00000000 |   -0.8414709848 |
-|  11 |    1.10000000 |   -0.8912073601 |
+    |   i |           x_i |       f''(x_i) |
+    +-----+---------------+-----------------+
+    |   0 |    0.00000000 |   -0.0000000000 |
+    |   1 |    0.10000000 |   -0.0998334166 |
+    |   2 |    0.20000000 |   -0.1986693308 |
+    |   3 |    0.30000000 |   -0.2955202067 |
+    |   4 |    0.40000000 |   -0.3894183423 |
+    |   5 |    0.50000000 |   -0.4794255386 |
+    |   6 |    0.60000000 |   -0.5646424734 |
+    |   7 |    0.70000000 |   -0.6442176872 |
+    |   8 |    0.80000000 |   -0.7173560909 |
+    |   9 |    0.90000000 |   -0.7833269096 |
+    |  10 |    1.00000000 |   -0.8414709848 |
+    |  11 |    1.10000000 |   -0.8912073601 |
 
-bledy aproksymacji drugiej pochodnej w calym przedziale:
-maksymalny blad bezwzgledny = 6.713318e+002
-RMSE = 3.276008e+002
-punkt maksymalnego bledu x = 4.70000000
+    bledy aproksymacji drugiej pochodnej w calym przedziale:
+    maksymalny blad bezwzgledny = 6.713318e+002
+    RMSE = 3.276008e+002
+    punkt maksymalnego bledu x = 4.70000000
 
-bledy aproksymacji drugiej pochodnej po obcieciu brzegow:
-maksymalny blad bezwzgledny = 6.713318e+002
-RMSE = 3.312947e+002
-punkt maksymalnego bledu x = 4.70000000
+    bledy aproksymacji drugiej pochodnej po obcieciu brzegow:
+    maksymalny blad bezwzgledny = 6.713318e+002
+    RMSE = 3.312947e+002
+    punkt maksymalnego bledu x = 4.70000000
 
-porownanie miar bledu:
-dla calego przedzialu blad maksymalny jest wiekszy od RMSE
-po obcieciu brzegow blad maksymalny nadal przewaza nad RMSE
+    porownanie miar bledu:
+    dla calego przedzialu blad maksymalny jest wiekszy od RMSE
+    po obcieciu brzegow blad maksymalny nadal przewaza nad RMSE
 
-wplyw rozmiaru N oraz nosnika h na blad:
-|   N |          h |      max full |       rmse full |      max trim |       rmse trim |
-+-----+------------+---------------+-----------------+---------------+-----------------+
-|  50 |   0.025000 |    1.461e+004 |      3.462e+003 |    1.461e+004 |      3.469e+003 |
-|  50 |   0.050000 |    1.830e+003 |      6.197e+002 |    1.830e+003 |      6.267e+002 |
-|  50 |   0.075000 |    5.327e+002 |      2.443e+002 |    5.327e+002 |      2.488e+002 |
-| 101 |   0.025000 |    7.220e+003 |      2.536e+003 |    7.220e+003 |      2.549e+003 |
-| 101 |   0.050000 |    6.713e+002 |      3.276e+002 |    6.713e+002 |      3.313e+002 |
-| 101 |   0.075000 |    9.105e+001 |      1.605e+001 |    3.091e+001 |      1.554e+001 |
-| 202 |   0.025000 |    2.635e+003 |      1.290e+003 |    2.635e+003 |      1.297e+003 |
-| 202 |   0.050000 |    1.342e+002 |      8.515e+000 |    1.502e+000 |      7.531e-001 |
-| 202 |   0.075000 |    5.597e+001 |      4.449e+000 |    1.411e-003 |      9.885e-004 |
+    wplyw rozmiaru N oraz nosnika h na blad:
+    |   N |          h |      max full |       rmse full |      max trim |       rmse trim |
+    +-----+------------+---------------+-----------------+---------------+-----------------+
+    |  50 |   0.025000 |    1.461e+004 |      3.462e+003 |    1.461e+004 |      3.469e+003 |
+    |  50 |   0.050000 |    1.830e+003 |      6.197e+002 |    1.830e+003 |      6.267e+002 |
+    |  50 |   0.075000 |    5.327e+002 |      2.443e+002 |    5.327e+002 |      2.488e+002 |
+    | 101 |   0.025000 |    7.220e+003 |      2.536e+003 |    7.220e+003 |      2.549e+003 |
+    | 101 |   0.050000 |    6.713e+002 |      3.276e+002 |    6.713e+002 |      3.313e+002 |
+    | 101 |   0.075000 |    9.105e+001 |      1.605e+001 |    3.091e+001 |      1.554e+001 |
+    | 202 |   0.025000 |    2.635e+003 |      1.290e+003 |    2.635e+003 |      1.297e+003 |
+    | 202 |   0.050000 |    1.342e+002 |      8.515e+000 |    1.502e+000 |      7.531e-001 |
+    | 202 |   0.075000 |    5.597e+001 |      4.449e+000 |    1.411e-003 |      9.885e-004 |
 
-plik danych do wykresu = C:\repos\POK-LABS-full\POK-5\POK_5_results\moB02zad7_plot.csv
-------------------------------------
-rozwiazanie zajelo: 3721.583 ms
-====================================
+    plik danych do wykresu = C:\repos\POK-LABS-full\POK-5\POK_5_results\moB02zad7_plot.csv
+    ------------------------------------
+    rozwiazanie zajelo: 3721.583 ms
+    ====================================

@@ -3,6 +3,10 @@
   "WorkspaceRootPath": "C:\\repos\\POK-LABS-full\\POK-5\\",
   "Documents": [
     {
+      "AbsoluteMoniker": "D:0:0:{EA6932B2-750A-06D8-2A94-0B1DE88EE300}|POK 5\\POK 5.csproj|c:\\repos\\pok-labs-full\\pok-5\\pok 5\\lab 5\\mob02zad1.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{EA6932B2-750A-06D8-2A94-0B1DE88EE300}|POK 5\\POK 5.csproj|solutionrelative:pok 5\\lab 5\\mob02zad1.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
       "AbsoluteMoniker": "D:0:0:{EA6932B2-750A-06D8-2A94-0B1DE88EE300}|POK 5\\POK 5.csproj|c:\\repos\\pok-labs-full\\pok-5\\pok 5\\lab 5\\mob02zad9.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{EA6932B2-750A-06D8-2A94-0B1DE88EE300}|POK 5\\POK 5.csproj|solutionrelative:pok 5\\lab 5\\mob02zad9.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
@@ -55,10 +59,6 @@
       "RelativeMoniker": "D:0:0:{EA6932B2-750A-06D8-2A94-0B1DE88EE300}|POK 5\\POK 5.csproj|solutionrelative:pok 5\\lab 5\\mob02_fapp1d.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{EA6932B2-750A-06D8-2A94-0B1DE88EE300}|POK 5\\POK 5.csproj|c:\\repos\\pok-labs-full\\pok-5\\pok 5\\lab 5\\mob02zad1.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{EA6932B2-750A-06D8-2A94-0B1DE88EE300}|POK 5\\POK 5.csproj|solutionrelative:pok 5\\lab 5\\mob02zad1.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
       "AbsoluteMoniker": "D:0:0:{EA6932B2-750A-06D8-2A94-0B1DE88EE300}|POK 5\\POK 5.csproj|c:\\repos\\pok-labs-full\\pok-5\\pok 5\\lab 5\\mob02zad10.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{EA6932B2-750A-06D8-2A94-0B1DE88EE300}|POK 5\\POK 5.csproj|solutionrelative:pok 5\\lab 5\\mob02zad10.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     }
@@ -70,7 +70,7 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 1,
+          "SelectedChildIndex": 14,
           "Children": [
             {
               "$type": "Bookmark",
@@ -78,20 +78,20 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 0,
+              "DocumentIndex": 1,
               "Title": "moB02zad9.cs",
               "DocumentMoniker": "C:\\repos\\POK-LABS-full\\POK-5\\POK 5\\LAB 5\\moB02zad9.cs",
               "RelativeDocumentMoniker": "POK 5\\LAB 5\\moB02zad9.cs",
               "ToolTip": "C:\\repos\\POK-LABS-full\\POK-5\\POK 5\\LAB 5\\moB02zad9.cs",
               "RelativeToolTip": "POK 5\\LAB 5\\moB02zad9.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAA8AAAAwAAAAAAAAAA==",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABMAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2026-05-08T16:29:36.826Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 1,
+              "DocumentIndex": 2,
               "Title": "moB02zad8.cs",
               "DocumentMoniker": "C:\\repos\\POK-LABS-full\\POK-5\\POK 5\\LAB 5\\moB02zad8.cs",
               "RelativeDocumentMoniker": "POK 5\\LAB 5\\moB02zad8.cs",
@@ -99,12 +99,11 @@
               "RelativeToolTip": "POK 5\\LAB 5\\moB02zad8.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAA4AAAAJAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-05-08T16:29:12.218Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-05-08T16:29:12.218Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 2,
+              "DocumentIndex": 3,
               "Title": "moB02zad7.cs",
               "DocumentMoniker": "C:\\repos\\POK-LABS-full\\POK-5\\POK 5\\LAB 5\\moB02zad7.cs",
               "RelativeDocumentMoniker": "POK 5\\LAB 5\\moB02zad7.cs",
@@ -112,12 +111,11 @@
               "RelativeToolTip": "POK 5\\LAB 5\\moB02zad7.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAkAAAAmAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-05-08T16:29:07.261Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-05-08T16:29:07.261Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 3,
+              "DocumentIndex": 4,
               "Title": "moB02zad6.cs",
               "DocumentMoniker": "C:\\repos\\POK-LABS-full\\POK-5\\POK 5\\LAB 5\\moB02zad6.cs",
               "RelativeDocumentMoniker": "POK 5\\LAB 5\\moB02zad6.cs",
@@ -125,12 +123,11 @@
               "RelativeToolTip": "POK 5\\LAB 5\\moB02zad6.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAA4AAAAJAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-05-08T16:29:00.726Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-05-08T16:29:00.726Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 4,
+              "DocumentIndex": 5,
               "Title": "moB02zad5.cs",
               "DocumentMoniker": "C:\\repos\\POK-LABS-full\\POK-5\\POK 5\\LAB 5\\moB02zad5.cs",
               "RelativeDocumentMoniker": "POK 5\\LAB 5\\moB02zad5.cs",
@@ -138,12 +135,11 @@
               "RelativeToolTip": "POK 5\\LAB 5\\moB02zad5.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAwAAAA9AAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-05-08T16:28:40.18Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-05-08T16:28:40.18Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 5,
+              "DocumentIndex": 6,
               "Title": "moB02zad4.cs",
               "DocumentMoniker": "C:\\repos\\POK-LABS-full\\POK-5\\POK 5\\LAB 5\\moB02zad4.cs",
               "RelativeDocumentMoniker": "POK 5\\LAB 5\\moB02zad4.cs",
@@ -151,12 +147,11 @@
               "RelativeToolTip": "POK 5\\LAB 5\\moB02zad4.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAABcAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-05-08T16:27:30.236Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-05-08T16:27:30.236Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 6,
+              "DocumentIndex": 7,
               "Title": "moB02zad3.cs",
               "DocumentMoniker": "C:\\repos\\POK-LABS-full\\POK-5\\POK 5\\LAB 5\\moB02zad3.cs",
               "RelativeDocumentMoniker": "POK 5\\LAB 5\\moB02zad3.cs",
@@ -164,12 +159,11 @@
               "RelativeToolTip": "POK 5\\LAB 5\\moB02zad3.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAwAAAA9AAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-05-08T16:27:19.305Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-05-08T16:27:19.305Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 7,
+              "DocumentIndex": 8,
               "Title": "moB02zad2.cs",
               "DocumentMoniker": "C:\\repos\\POK-LABS-full\\POK-5\\POK 5\\LAB 5\\moB02zad2.cs",
               "RelativeDocumentMoniker": "POK 5\\LAB 5\\moB02zad2.cs",
@@ -177,24 +171,22 @@
               "RelativeToolTip": "POK 5\\LAB 5\\moB02zad2.cs",
               "ViewState": "AgIAAAUAAAAAAAAAAAAxwAAAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-05-08T16:27:17.233Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-05-08T16:27:17.233Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 10,
+              "DocumentIndex": 11,
               "Title": "POK 5",
               "DocumentMoniker": "C:\\repos\\POK-LABS-full\\POK-5\\POK 5\\POK 5.csproj",
               "RelativeDocumentMoniker": "POK 5\\POK 5.csproj",
               "ToolTip": "C:\\repos\\POK-LABS-full\\POK-5\\POK 5\\POK 5.csproj",
               "RelativeToolTip": "POK 5\\POK 5.csproj",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000758|",
-              "WhenOpened": "2026-05-08T16:24:21.969Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-05-08T16:24:21.969Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 9,
+              "DocumentIndex": 10,
               "Title": "moB02zad14.cs",
               "DocumentMoniker": "C:\\repos\\POK-LABS-full\\POK-5\\POK 5\\LAB 5\\moB02zad14.cs",
               "RelativeDocumentMoniker": "POK 5\\LAB 5\\moB02zad14.cs",
@@ -202,12 +194,11 @@
               "RelativeToolTip": "POK 5\\LAB 5\\moB02zad14.cs",
               "ViewState": "AgIAAGoAAAAAAAAAAAAAAGQAAAA1AAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-05-08T16:23:33.554Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-05-08T16:23:33.554Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 11,
+              "DocumentIndex": 12,
               "Title": "moB02cw2.cs.txt",
               "DocumentMoniker": "C:\\repos\\POK-LABS-full\\POK-5\\POK 5\\LAB 5\\moB02cw2.cs.txt",
               "RelativeDocumentMoniker": "POK 5\\LAB 5\\moB02cw2.cs.txt",
@@ -215,12 +206,11 @@
               "RelativeToolTip": "POK 5\\LAB 5\\moB02cw2.cs.txt",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAABYAAAADAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003109|",
-              "WhenOpened": "2026-05-08T16:23:26.768Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-05-08T16:23:26.768Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 12,
+              "DocumentIndex": 13,
               "Title": "moB02_fapp1d.cs",
               "DocumentMoniker": "C:\\repos\\POK-LABS-full\\POK-5\\POK 5\\LAB 5\\moB02_fapp1d.cs",
               "RelativeDocumentMoniker": "POK 5\\LAB 5\\moB02_fapp1d.cs",
@@ -228,8 +218,7 @@
               "RelativeToolTip": "POK 5\\LAB 5\\moB02_fapp1d.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-05-08T16:22:55.048Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-05-08T16:22:55.048Z"
             },
             {
               "$type": "Document",
@@ -241,25 +230,24 @@
               "RelativeToolTip": "POK 5\\LAB 5\\moB02zad10.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAkAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-05-08T16:19:46.192Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-05-08T16:19:46.192Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 13,
+              "DocumentIndex": 0,
               "Title": "moB02zad1.cs",
               "DocumentMoniker": "C:\\repos\\POK-LABS-full\\POK-5\\POK 5\\LAB 5\\moB02zad1.cs",
               "RelativeDocumentMoniker": "POK 5\\LAB 5\\moB02zad1.cs",
               "ToolTip": "C:\\repos\\POK-LABS-full\\POK-5\\POK 5\\LAB 5\\moB02zad1.cs",
               "RelativeToolTip": "POK 5\\LAB 5\\moB02zad1.cs",
-              "ViewState": "AgIAAAUAAAAAAAAAAAAxwAYAAAABAAAAAAAAAA==",
+              "ViewState": "AgIAAGEAAAAAAAAAAAAowFIAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2026-05-08T16:18:21.826Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 8,
+              "DocumentIndex": 9,
               "Title": "Program.cs",
               "DocumentMoniker": "C:\\repos\\POK-LABS-full\\POK-5\\POK 5\\Program.cs",
               "RelativeDocumentMoniker": "POK 5\\Program.cs",
@@ -267,8 +255,7 @@
               "RelativeToolTip": "POK 5\\Program.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAABIAAAAVAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-05-08T16:17:59.672Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-05-08T16:17:59.672Z"
             }
           ]
         }

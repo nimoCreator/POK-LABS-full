@@ -76,19 +76,20 @@ internal sealed class MoB02Zad2 : IZadanie
         writer.WriteLine("+-----+---------------+---------------+-----------+");
 
         double maxError = 0.0;
-        const double tolerance = 1e-9;
+        const double tolerance = 1e-12;
         for (int i = 0; i < nodeCount; i++)
         {
             double interpolated = EvaluateLagrangePolynomial(xNodes[i], xNodes, yValues);
             double error = Math.Abs(interpolated - yValues[i]);
             maxError = Math.Max(maxError, error);
 
-            Debug.Assert(error <= tolerance, $"Naruszona rownosc interpolacyjna dla i = {i}.");
-            if (error > tolerance)
-            {
-                throw new InvalidOperationException(
-                    $"Rownosc interpolacyjna nie zostala spelniona dla i = {i}. Blad = {error:e6}.");
-            }
+            Debug.Assert(error <= tolerance * Math.Max(1.0, Math.Abs(yValues[i])),
+                $"Naruszona rownosc interpolacyjna dla i = {i}.");
+            NumericAssert.AreAlmostEqual(
+                interpolated,
+                yValues[i],
+                tolerance,
+                $"Rownosc interpolacyjna nie zostala spelniona dla i = {i}.");
 
             writer.WriteLine("| {0,3} | {1,13:g10} | {2,13:g10} | {3,9:e2} |",
                 i, interpolated, yValues[i], error);
@@ -96,7 +97,7 @@ internal sealed class MoB02Zad2 : IZadanie
 
         writer.WriteLine();
         writer.WriteLine("maksymalny blad interpolacji = {0:e6}", maxError);
-        writer.WriteLine("asercje zostaly spelnione");
+        writer.WriteLine("asercje zostaly spelnione z tolerancja {0:e0}", tolerance);
     }
 
     private static double[] GenerateNodes(int count, double a, double b, Random random)
@@ -145,7 +146,7 @@ internal sealed class MoB02Zad2 : IZadanie
         for (int j = 0; j < xNodes.Length; j++)
         {
             if (j == basisIndex)
-            {n
+            {
                 continue;
             }
 

@@ -1,0 +1,15 @@
+C:\repos\POK-LABS-full\POK-5\POK 5\bin\Release\net9.0\POK 5.exe
+C:\repos\POK-LABS-full\POK-5\POK 5\bin\Release\net9.0\POK 5.deps.json
+C:\repos\POK-LABS-full\POK-5\POK 5\bin\Release\net9.0\POK 5.runtimeconfig.json
+C:\repos\POK-LABS-full\POK-5\POK 5\bin\Release\net9.0\POK 5.dll
+C:\repos\POK-LABS-full\POK-5\POK 5\bin\Release\net9.0\POK 5.pdb
+C:\repos\POK-LABS-full\POK-5\POK 5\obj\Release\net9.0\POK 5.GeneratedMSBuildEditorConfig.editorconfig
+C:\repos\POK-LABS-full\POK-5\POK 5\obj\Release\net9.0\POK 5.AssemblyInfoInputs.cache
+C:\repos\POK-LABS-full\POK-5\POK 5\obj\Release\net9.0\POK 5.AssemblyInfo.cs
+C:\repos\POK-LABS-full\POK-5\POK 5\obj\Release\net9.0\POK 5.csproj.CoreCompileInputs.cache
+C:\repos\POK-LABS-full\POK-5\POK 5\obj\Release\net9.0\POK 5.sourcelink.json
+C:\repos\POK-LABS-full\POK-5\POK 5\obj\Release\net9.0\POK 5.dll
+C:\repos\POK-LABS-full\POK-5\POK 5\obj\Release\net9.0\refint\POK 5.dll
+C:\repos\POK-LABS-full\POK-5\POK 5\obj\Release\net9.0\POK 5.pdb
+C:\repos\POK-LABS-full\POK-5\POK 5\obj\Release\net9.0\POK 5.genruntimeconfig.cache
+C:\repos\POK-LABS-full\POK-5\POK 5\obj\Release\net9.0\ref\POK 5.dll

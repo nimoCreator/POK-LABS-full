@@ -1,91 +1,91 @@
-====================================
-ZADANIE moB02zad9
-------------------------------------
-symulacja SPH przewodnictwa cieplnego w 1D dla rownania Fouriera
-warunek poczatkowy: T(x,t0) = 20
-warunki brzegowe stale: T(a,t) = 100, T(b,t) = 0
-przedzial przestrzenny = <0.000000, 1.000000>
-przedzial czasowy = <0.000000, 1.000000>
-N = 101, M = 1201
-krok przestrzenny w = 0.01000000
-krok czasowy dt = 0.00083333
-mnoznik dyfuzyjnosci q = 0.250000
-mnoznik nosnika eta = 1.250000
-dyfuzyjnosc kappa = 0.03000000
-nosnik jadra h = 0.01250000
-promien obciecia do wykresow = <a + 3w, b - 1w>
+    ====================================
+    ZADANIE moB02zad9
+    ------------------------------------
+    symulacja SPH przewodnictwa cieplnego w 1D dla rownania Fouriera
+    warunek poczatkowy: T(x,t0) = 20
+    warunki brzegowe stale: T(a,t) = 100, T(b,t) = 0
+    przedzial przestrzenny = <0.000000, 1.000000>
+    przedzial czasowy = <0.000000, 1.000000>
+    N = 101, M = 1201
+    krok przestrzenny w = 0.01000000
+    krok czasowy dt = 0.00083333
+    mnoznik dyfuzyjnosci q = 0.250000
+    mnoznik nosnika eta = 1.250000
+    dyfuzyjnosc kappa = 0.03000000
+    nosnik jadra h = 0.01250000
+    promien obciecia do wykresow = <a + 3w, b - 1w>
 
-czasy zapisanych serii:
-t[ 0] = 0.08333333
-t[ 1] = 0.17500000
-t[ 2] = 0.26666667
-t[ 3] = 0.35833333
-t[ 4] = 0.45000000
-t[ 5] = 0.54166667
-t[ 6] = 0.63333333
-t[ 7] = 0.72500000
-t[ 8] = 0.81666667
-t[ 9] = 0.90833333
-t[10] = 1.00000000
+    czasy zapisanych serii:
+    t[ 0] = 0.08333333
+    t[ 1] = 0.17500000
+    t[ 2] = 0.26666667
+    t[ 3] = 0.35833333
+    t[ 4] = 0.45000000
+    t[ 5] = 0.54166667
+    t[ 6] = 0.63333333
+    t[ 7] = 0.72500000
+    t[ 8] = 0.81666667
+    t[ 9] = 0.90833333
+    t[10] = 1.00000000
 
-przykladowe wartosci w pierwszym zapisanym czasie dla podejscia 1:
-|   i |           x |       T dokl. |        T SPH |    T gladkie |
-+-----+-------------+---------------+--------------+--------------+
-|   0 |    0.030000 |     73.709859 |    71.592319 |    68.290533 |
-|   1 |    0.039600 |     66.036796 |    64.341154 |    63.819094 |
-|   2 |    0.049200 |     58.924674 |    57.414696 |    57.653188 |
-|   3 |    0.058800 |     52.452697 |    51.212864 |    51.494941 |
-|   4 |    0.068400 |     46.670644 |    45.666799 |    45.960207 |
-|   5 |    0.078000 |     41.599165 |    40.821208 |    41.107466 |
-|   6 |    0.087600 |     37.232052 |    36.653212 |    36.925981 |
-|   7 |    0.097200 |     33.540052 |    33.131844 |    33.383993 |
-podejscie 1 - laplasjan jadra Monaghana:
-status = symulacja zakonczona poprawnie
-blad aproksymacji we wszystkich 11 seriach:
-surowe dane:   max = 2.117540e+000, rmse = 2.496683e-001, punkt = (x = 0.03000000, t = 0.08333333)
-po wygladzeniu: max = 5.419326e+000, rmse = 3.795167e-001, punkt = (x = 0.03000000, t = 0.08333333)
-blad w chwili koncowej te:
-surowe dane:   max = 6.555718e-001, rmse = 1.780380e-001
-po wygladzeniu: max = 1.755155e+000, rmse = 2.510834e-001
+    przykladowe wartosci w pierwszym zapisanym czasie dla podejscia 1:
+    |   i |           x |       T dokl. |        T SPH |    T gladkie |
+    +-----+-------------+---------------+--------------+--------------+
+    |   0 |    0.030000 |     73.709859 |    71.592319 |    68.290533 |
+    |   1 |    0.039600 |     66.036796 |    64.341154 |    63.819094 |
+    |   2 |    0.049200 |     58.924674 |    57.414696 |    57.653188 |
+    |   3 |    0.058800 |     52.452697 |    51.212864 |    51.494941 |
+    |   4 |    0.068400 |     46.670644 |    45.666799 |    45.960207 |
+    |   5 |    0.078000 |     41.599165 |    40.821208 |    41.107466 |
+    |   6 |    0.087600 |     37.232052 |    36.653212 |    36.925981 |
+    |   7 |    0.097200 |     33.540052 |    33.131844 |    33.383993 |
+    podejscie 1 - laplasjan jadra Monaghana:
+    status = symulacja zakonczona poprawnie
+    blad aproksymacji we wszystkich 11 seriach:
+    surowe dane:   max = 2.117540e+000, rmse = 2.496683e-001, punkt = (x = 0.03000000, t = 0.08333333)
+    po wygladzeniu: max = 5.419326e+000, rmse = 3.795167e-001, punkt = (x = 0.03000000, t = 0.08333333)
+    blad w chwili koncowej te:
+    surowe dane:   max = 6.555718e-001, rmse = 1.780380e-001
+    po wygladzeniu: max = 1.755155e+000, rmse = 2.510834e-001
 
-podejscie 2 - dyskretyzacja Taylora:
-status = symulacja zakonczona poprawnie
-blad aproksymacji we wszystkich 11 seriach:
-surowe dane:   max = 5.519400e-001, rmse = 1.315444e-001, punkt = (x = 0.03000000, t = 0.08333333)
-po wygladzeniu: max = 3.963091e+000, rmse = 2.756974e-001, punkt = (x = 0.03000000, t = 0.08333333)
-blad w chwili koncowej te:
-surowe dane:   max = 3.041924e-001, rmse = 1.585434e-001
-po wygladzeniu: max = 1.313014e+000, rmse = 2.197756e-001
+    podejscie 2 - dyskretyzacja Taylora:
+    status = symulacja zakonczona poprawnie
+    blad aproksymacji we wszystkich 11 seriach:
+    surowe dane:   max = 5.519400e-001, rmse = 1.315444e-001, punkt = (x = 0.03000000, t = 0.08333333)
+    po wygladzeniu: max = 3.963091e+000, rmse = 2.756974e-001, punkt = (x = 0.03000000, t = 0.08333333)
+    blad w chwili koncowej te:
+    surowe dane:   max = 3.041924e-001, rmse = 1.585434e-001
+    po wygladzeniu: max = 1.313014e+000, rmse = 2.197756e-001
 
-roznica miedzy podejsciami w tych samych punktach kontrolnych:
-maksymalna roznica bezwzgledna = 1.565600e+000
-RMSE roznicy = 2.441440e-001
-punkt maksymalnej roznicy: x = 0.03000000, t = 0.08333333
+    roznica miedzy podejsciami w tych samych punktach kontrolnych:
+    maksymalna roznica bezwzgledna = 1.565600e+000
+    RMSE roznicy = 2.441440e-001
+    punkt maksymalnej roznicy: x = 0.03000000, t = 0.08333333
 
-wplyw liczby wezlow N na blad koncowy:
-| parametr | wartosc |      met1 max |     met1 rmse |      met2 max |     met2 rmse |      status |
-+----------+---------+---------------+---------------+---------------+---------------+-------------+
-| N        |      51 |    1.014e+000 |    3.348e-001 |    2.954e-001 |    1.768e-001 | stabilne    |
-| N        |     101 |    9.533e-001 |    2.065e-001 |    3.015e-001 |    1.569e-001 | stabilne    |
-| N        |     201 |    9.531e-001 |    1.491e-001 |    3.093e-001 |    1.213e-001 | stabilne    |
+    wplyw liczby wezlow N na blad koncowy:
+    | parametr | wartosc |      met1 max |     met1 rmse |      met2 max |     met2 rmse |      status |
+    +----------+---------+---------------+---------------+---------------+---------------+-------------+
+    | N        |      51 |    1.014e+000 |    3.348e-001 |    2.954e-001 |    1.768e-001 | stabilne    |
+    | N        |     101 |    9.533e-001 |    2.065e-001 |    3.015e-001 |    1.569e-001 | stabilne    |
+    | N        |     201 |    9.531e-001 |    1.491e-001 |    3.093e-001 |    1.213e-001 | stabilne    |
 
-wplyw mnoznika nosnika eta na blad koncowy:
-| parametr | wartosc |      met1 max |     met1 rmse |      met2 max |     met2 rmse |      status |
-+----------+---------+---------------+---------------+---------------+---------------+-------------+
-| eta      |   0.938 |    2.383e+000 |    1.278e+000 |    1.625e-001 |    8.662e-002 | stabilne    |
-| eta      |   1.250 |    9.533e-001 |    2.065e-001 |    3.015e-001 |    1.569e-001 | stabilne    |
-| eta      |   1.500 |    6.347e+000 |    2.973e+000 |    7.778e-001 |    4.215e-001 | stabilne    |
+    wplyw mnoznika nosnika eta na blad koncowy:
+    | parametr | wartosc |      met1 max |     met1 rmse |      met2 max |     met2 rmse |      status |
+    +----------+---------+---------------+---------------+---------------+---------------+-------------+
+    | eta      |   0.938 |    2.383e+000 |    1.278e+000 |    1.625e-001 |    8.662e-002 | stabilne    |
+    | eta      |   1.250 |    9.533e-001 |    2.065e-001 |    3.015e-001 |    1.569e-001 | stabilne    |
+    | eta      |   1.500 |    6.347e+000 |    2.973e+000 |    7.778e-001 |    4.215e-001 | stabilne    |
 
-wplyw mnoznika dyfuzyjnosci q na blad koncowy i stabilnosc:
-| parametr | wartosc |      met1 max |     met1 rmse |      met2 max |     met2 rmse |      status |
-+----------+---------+---------------+---------------+---------------+---------------+-------------+
-| q        |   0.150 |    1.232e+000 |    2.541e-001 |    3.516e-001 |    1.383e-001 | stabilne    |
-| q        |   0.250 |    9.533e-001 |    2.065e-001 |    3.015e-001 |    1.569e-001 | stabilne    |
-| q        |   0.350 |    8.066e-001 |    1.856e-001 |    3.039e-001 |    1.641e-001 | stabilne    |
+    wplyw mnoznika dyfuzyjnosci q na blad koncowy i stabilnosc:
+    | parametr | wartosc |      met1 max |     met1 rmse |      met2 max |     met2 rmse |      status |
+    +----------+---------+---------------+---------------+---------------+---------------+-------------+
+    | q        |   0.150 |    1.232e+000 |    2.541e-001 |    3.516e-001 |    1.383e-001 | stabilne    |
+    | q        |   0.250 |    9.533e-001 |    2.065e-001 |    3.015e-001 |    1.569e-001 | stabilne    |
+    | q        |   0.350 |    8.066e-001 |    1.856e-001 |    3.039e-001 |    1.641e-001 | stabilne    |
 
-plik wynikowy podejscia 1 = C:\repos\POK-LABS-full\POK-5\POK_5_results\moB02zad9_podejscie1.xls
-plik wynikowy podejscia 2 = C:\repos\POK-LABS-full\POK-5\POK_5_results\moB02zad9_podejscie2.xls
-uwaga: pliki .xls sa zapisane jako tekst rozdzielany srednikami i mozna je bezposrednio otworzyc w Excelu.
-------------------------------------
-rozwiazanie zajelo: 18081.643 ms
-====================================
+    plik wynikowy podejscia 1 = C:\repos\POK-LABS-full\POK-5\POK_5_results\moB02zad9_podejscie1.xls
+    plik wynikowy podejscia 2 = C:\repos\POK-LABS-full\POK-5\POK_5_results\moB02zad9_podejscie2.xls
+    uwaga: pliki .xls sa zapisane jako tekst rozdzielany srednikami i mozna je bezposrednio otworzyc w Excelu.
+    ------------------------------------
+    rozwiazanie zajelo: 18081.643 ms
+    ====================================
